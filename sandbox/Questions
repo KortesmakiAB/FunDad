@@ -1,0 +1,10 @@
+I'd like to have an interactive map in FUN DAD. The Map API interactivity requires JavaScript.
+As I am reading the Google API docs, it seems as though I have to include my API KEY in the <script> tag.  Even though I have placed an IP restriction on my API KEY, it doesn't seem very safe to put my API KEY right in the HTML.
+https://developers.google.com/maps/documentation/javascript/adding-a-google-map#step_2_add_a_map_with_a_marker
+
+Is there a better way to protect the api key? Perhaps would there be a way to put it in a .js file? But even then, it's still visible in the browser console.
+
+
+What I'm looking for:
+Tap a marker on the map which displays a link to launch the Google Maps App. The app will begin giving diretions to the destination.
+
