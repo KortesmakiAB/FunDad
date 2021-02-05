@@ -8,8 +8,8 @@ from secret_keys import API_KEY
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
-# from forms import *
-# from models import *
+from forms import *
+from models import *
 
 app = Flask(__name__)
 
@@ -22,7 +22,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "sdasdf;lkjl;kj@#$kl;jadfklj")
 toolbar = DebugToolbarExtension(app)
 
-# connect_db(app)
+connect_db(app)
 
 CURR_USER_KEY = "curr_user"
 
@@ -63,4 +63,27 @@ def do_logout():
 def create_acount():
     """Create new user and add to DB. Redirect to landing page."""
 
-    return "welcome to fun dad"
+    form = UserSignupForm()
+
+    if form.validate_on_submit():
+        try:
+            username        = form.username.data
+            password        = form.password.data
+            email           = form.email.data
+
+            # new_user        = User.signup(username, password, email)
+
+            # db.session.commit()
+
+        except IntegrityError:
+            flash("Username/Email already taken", 'danger')
+            return render_template('users/signup.html', form=form)
+
+        do_login(new_user)
+
+        return redirect('/destinations')
+
+    else:
+
+        return render_template('/users/signup.html', form=form)
+
