@@ -15,7 +15,7 @@ BaseModelForm = model_form_factory(FlaskForm)
 #         return db.session
 
 class UserSignupForm(FlaskForm):
-    """Form for adding new users."""
+    """New user signup form."""
 
     first_name          = StringField('first name', validators=[DataRequired()])
     last_name           = StringField('last name', validators=[DataRequired()])
@@ -23,6 +23,11 @@ class UserSignupForm(FlaskForm):
     password            = PasswordField('password', validators=[Length(min=6)])
 
 
+class UserLoginForm(FlaskForm):
+    """Returning user login form."""
+
+    username_email      = StringField('email address', validators=[DataRequired()])
+    password            = PasswordField('password', validators=[Length(min=6)])
 
 
 

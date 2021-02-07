@@ -45,6 +45,20 @@ class User(db.Model):
 
         return user
 
+    @classmethod
+    def authenticate(cls, username_email, password):
+        """Authenticate username/password combo."""
+
+        user        = cls.query.filter_by(username_email=username_email).first()
+
+        if user:
+            is_authenticated = bcrypt.check_password_hash(user.password, password)
+
+            if is_authenticated:
+                return user
+
+        return False
+
 
 class Destination(db.Model):
     """Places to take your kiddos."""

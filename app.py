@@ -57,7 +57,34 @@ def add_user_to_g():
         g.user = None
 
 
-@app.route('/', methods = ['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
+def landing_page():
+    """Display landing page"""
+
+    return "Welcome to my landing page. It'll be fancy."
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_user():
+    """Authenticate user or serve login form."""
+
+    form = UserLoginForm()
+
+    if form.validate_on_submit():
+        returning_user = User.authenticate(form.username_email.data, form.password.data)
+
+        if returning_user:
+            do_login(returning_user)
+            flash(f'Welcome back to FUN DAD, {returning_user.first_name}!', 'success')
+
+            return redirect('/destinations')
+
+        flash('Invalid Username/Password combination', 'danger')
+
+    return render_template('users/login.html', form=form)
+
+
+@app.route('/signup', methods=['GET', 'POST'])
 def create_acount():
     """Create new user and add to DB. Redirect to landing page."""
 
