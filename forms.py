@@ -1,23 +1,26 @@
 """Forms for FUN DAD app."""
 
-# from wtforms import SelectField
+from wtforms import StringField, PasswordField
 from flask_wtf import FlaskForm
+from wtforms.validators import DataRequired, Email, Length
 from wtforms_alchemy import model_form_factory
 from models import User
 
 BaseModelForm = model_form_factory(FlaskForm)
 
 
-class ModelForm(BaseModelForm):
-    @classmethod
-    def get_session(self):
-        return db.session
+# class ModelForm(BaseModelForm):
+#     @classmethod
+#     def get_session(self):
+#         return db.session
 
-class UserSignupForm(ModelForm):
+class UserSignupForm(FlaskForm):
     """Form for adding new users."""
 
-    class Meta:
-        model = User
+    first_name          = StringField('first name', validators=[DataRequired()])
+    last_name           = StringField('last name', validators=[DataRequired()])
+    username_email      = StringField('email address', validators=[DataRequired()])
+    password            = PasswordField('password', validators=[Length(min=6)])
 
 
 

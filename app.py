@@ -28,19 +28,7 @@ CURR_USER_KEY = "curr_user"
 
 
 ##############################################################################
-# User signup/login/logout
-
-
-@app.before_request
-def add_user_to_g():
-    """If user is logged in, add curr user to Flask global."""
-
-    if CURR_USER_KEY in session:
-        g.user = User.query.get(session[CURR_USER_KEY])
-
-    else:
-        g.user = None
-
+# User login/logout helper functions
 
 def do_login(user):
     """Log in user."""
@@ -58,6 +46,16 @@ def do_logout():
 ##############################################################################
 # HTML Routes
 
+@app.before_request
+def add_user_to_g():
+    """If user is logged in, add curr user to Flask global."""
+
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
+
+    else:
+        g.user = None
+
 
 @app.route('/', methods = ['GET', 'POST'])
 def create_acount():
@@ -67,13 +65,14 @@ def create_acount():
 
     if form.validate_on_submit():
         try:
-            username        = form.username.data
+            first_name      = form.first_name.data
+            last_name       = form.last_name.data
+            username_email  = form.username_email.data
             password        = form.password.data
-            email           = form.email.data
 
-            # new_user        = User.signup(username, password, email)
+            new_user        = User.signup(first_name, last_name, username_email, password)
 
-            # db.session.commit()
+            db.session.commit()
 
         except IntegrityError:
             flash("Username/Email already taken", 'danger')

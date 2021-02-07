@@ -4,6 +4,7 @@ from datetime import datetime
 
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy_utils import PasswordType
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -23,11 +24,26 @@ class User(db.Model):
 
     id              = db.Column(db.Integer, primary_key=True)
 
-    username        = db.Column(db.String(25), nullable=False, unique=True)
+    first_name      = db.Column(db.String(25), nullable=False)
+
+    last_name       = db.Column(db.String(25), nullable=False)
+    
+    username_email  = db.Column(db.String(25), nullable=False, unique=True)
 
     password        = db.Column(db.String(100), nullable=False)
 
-    email           = db.Column(db.String(50), nullable=False, unique=True)
+    
+    @classmethod
+    def signup(cls, first_name, last_name, username_email, password):
+        """Create user instance, inluding hashed pw, and add to session."""
+
+        hashed_pw   = bcrypt.generate_password_hash(password).decode('UTF-8')
+
+        user        = User(first_name=first_name, last_name=last_name, username_email=username_email, password=hashed_pw)
+
+        db.session.add(user)
+
+        return user
 
 
 class Destination(db.Model):
