@@ -10,6 +10,7 @@ from sqlalchemy.exc import IntegrityError
 
 from forms import *
 from models import *
+from app_helpers import *
 
 app = Flask(__name__)
 
@@ -24,27 +25,12 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
-CURR_USER_KEY = "curr_user"
+# CURR_USER_KEY = "curr_user"
 
 
 ##############################################################################
-# User login/logout helper functions
-
-def do_login(user):
-    """Log in user."""
-
-    session[CURR_USER_KEY] = user.id
-
-
-def do_logout():
-    """Logout user."""
-
-    if CURR_USER_KEY in session:
-        del session[CURR_USER_KEY]
-
-
 ##############################################################################
-# HTML Routes
+# Begin HTML routes
 
 @app.before_request
 def add_user_to_g():
@@ -61,8 +47,11 @@ def add_user_to_g():
 def landing_page():
     """Display landing page"""
 
-    return "Welcome to my landing page. It'll be fancy."
+    return render_template('home-anon.html')
 
+
+##############################################################################
+# login & signup routes
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
@@ -112,4 +101,22 @@ def create_acount():
     else:
 
         return render_template('/users/signup.html', form=form)
+
+
+##############################################################################
+# Destinations routes
+
+@app.route('/destinations')
+def display_destinations():
+    """TODO"""
+
+    # destinations            = .all()
+
+    return render_template('destinations/destinations.html')
+
+
+
+##############################################################################
+##############################################################################
+# Begin API routes
 
