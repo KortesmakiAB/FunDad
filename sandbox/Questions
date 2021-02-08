@@ -1,10 +1,33 @@
-I'd like to have an interactive map in FUN DAD. The Map API interactivity requires JavaScript.
+
+Here is a link to my evil plan:
+https://docs.google.com/document/d/17zp5fPJPdcq1sIPkXSsm57BNxn1y39aw5fxwxUxQes0/edit?usp=sharing
+
+---------------------------------------------------
+
+Question 1
+I'd like to have an interactive map with markers in FUN DAD. The Map API interactivity requires JavaScript.
 As I am reading the Google API docs, it seems as though I have to include my API KEY in the <script> tag.  Even though I have placed an IP restriction on my API KEY, it doesn't seem very safe to put my API KEY right in the HTML.
 https://developers.google.com/maps/documentation/javascript/adding-a-google-map#step_2_add_a_map_with_a_marker
 
-Is there a better way to protect the api key? Perhaps would there be a way to put it in a .js file? But even then, it's still visible in the browser console.
+Is there a better way to protect the api key? Perhaps would there be a way to put it in a .js file? But even then, it's still visible in the browser console. Or is it enough just to have IP restriction (Google Cloud Console)?
 
+---------------------------------------------------
 
-What I'm looking for:
-Tap a marker on the map which displays a link to launch the Google Maps App. The app will begin giving diretions to the destination.
+Question 2
+
+Add drive times to /destinations page 
+
+Is this the work flow I'll need?
+1- Get current location, using  navigator.geolocation.getCurrentPosition()
+    1a- DONE WITH JAVASCRIPT 
+        1a1- WHEN? When page loads? Another event handler?
+2- Call internal Flask API ROUTE (AJAX)
+    2a- call Google Maps to get drive times
+        destinations_times  = .distance_matrix()
+        Note: mayebe return a list of tuples  (place_id, duration_in_traffic, name) or list of dicts
+        Note: Can I send a list? Or do I need to make individual calls?
+        Note: Error handling in case geolocation is not supported
+    2b- return JSON
+3- Update DOM		
+
 

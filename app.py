@@ -110,9 +110,9 @@ def create_acount():
 def display_destinations():
     """TODO"""
 
-    # destinations            = .all()
+    destinations            = Destination.query.all()
 
-    return render_template('destinations/destinations.html')
+    return render_template('destinations/destinations.html', destinations=destinations)
 
 
 

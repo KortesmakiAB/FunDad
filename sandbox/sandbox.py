@@ -129,7 +129,7 @@ gmaps = googlemaps.Client(key=API_KEY)
 # .geocode()  AND     .reverse_geocode()    -     (Python wrapper)
 
 
-# address = gmaps.geocode('2215 Willowgrove Ave, Dayton, OH')
+address = gmaps.geocode('Centennial Park at Houk Stream, Oakwood, OH')
 
 # address:
 # [{'address_components': [{'long_name': '2215',
@@ -168,46 +168,46 @@ gmaps = googlemaps.Client(key=API_KEY)
 ###############################
 # Google API      
 
-coords = requests.get('https://maps.googleapis.com/maps/api/geocode/json',
-                        params={
-                            "key": API_KEY,
-                            "address": "2215 Willowgrove Ave, Dayton, OH 45409"
-                        })
+# coords = requests.get('https://maps.googleapis.com/maps/api/geocode/json',
+#                         params={
+#                             "key": API_KEY,
+#                             "address": "2215 Willowgrove Ave, Dayton, OH 45409"
+#                         })
 
-x = coords.json()
+# x = coords.json()
 
-x:
-{'results': [{'address_components': [{'long_name': '2215',
-     'short_name': '2215',
-     'types': ['street_number']},
-    {'long_name': 'Willowgrove Avenue',
-     'short_name': 'Willowgrove Ave',
-     'types': ['route']},
-    {'long_name': 'Dayton',
-     'short_name': 'Dayton',
-     'types': ['locality', 'political']},
-    {'long_name': 'Montgomery County',
-     'short_name': 'Montgomery County',
-     'types': ['administrative_area_level_2', 'political']},
-    {'long_name': 'Ohio',
-     'short_name': 'OH',
-     'types': ['administrative_area_level_1', 'political']},
-    {'long_name': 'United States',
-     'short_name': 'US',
-     'types': ['country', 'political']},
-    {'long_name': '45409', 'short_name': '45409', 'types': ['postal_code']},
-    {'long_name': '1952',
-     'short_name': '1952',
-     'types': ['postal_code_suffix']}],
-   'formatted_address': '2215 Willowgrove Ave, Dayton, OH 45409, USA',
-   'geometry': {'bounds': {'northeast': {'lat': 39.7242003,
-      'lng': -84.1942423},
-     'southwest': {'lat': 39.7240683, 'lng': -84.19441719999999}},
-    'location': {'lat': 39.72412449999999, 'lng': -84.1943411},
-    'location_type': 'ROOFTOP',
-    'viewport': {'northeast': {'lat': 39.7254832802915,
-      'lng': -84.19298076970848},
-     'southwest': {'lat': 39.7227853197085, 'lng': -84.1956787302915}}},
-   'place_id': 'ChIJryzQxJqGQIgRuT0Qo2yujtI',
-   'types': ['premise']}],
- 'status': 'OK'}
+# x:
+# {'results': [{'address_components': [{'long_name': '2215',
+#      'short_name': '2215',
+#      'types': ['street_number']},
+#     {'long_name': 'Willowgrove Avenue',
+#      'short_name': 'Willowgrove Ave',
+#      'types': ['route']},
+#     {'long_name': 'Dayton',
+#      'short_name': 'Dayton',
+#      'types': ['locality', 'political']},
+#     {'long_name': 'Montgomery County',
+#      'short_name': 'Montgomery County',
+#      'types': ['administrative_area_level_2', 'political']},
+#     {'long_name': 'Ohio',
+#      'short_name': 'OH',
+#      'types': ['administrative_area_level_1', 'political']},
+#     {'long_name': 'United States',
+#      'short_name': 'US',
+#      'types': ['country', 'political']},
+#     {'long_name': '45409', 'short_name': '45409', 'types': ['postal_code']},
+#     {'long_name': '1952',
+#      'short_name': '1952',
+#      'types': ['postal_code_suffix']}],
+#    'formatted_address': '2215 Willowgrove Ave, Dayton, OH 45409, USA',
+#    'geometry': {'bounds': {'northeast': {'lat': 39.7242003,
+#       'lng': -84.1942423},
+#      'southwest': {'lat': 39.7240683, 'lng': -84.19441719999999}},
+#     'location': {'lat': 39.72412449999999, 'lng': -84.1943411},
+#     'location_type': 'ROOFTOP',
+#     'viewport': {'northeast': {'lat': 39.7254832802915,
+#       'lng': -84.19298076970848},
+#      'southwest': {'lat': 39.7227853197085, 'lng': -84.1956787302915}}},
+#    'place_id': 'ChIJryzQxJqGQIgRuT0Qo2yujtI',
+#    'types': ['premise']}],
+#  'status': 'OK'}

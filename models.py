@@ -1,6 +1,6 @@
 """SQLAlchemy models for FUN DAD."""
 
-from datetime import datetime
+from datetime import date
 
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
@@ -81,8 +81,21 @@ class User_Destination(db.Model):
 
     __tablename__   = "users_destinations"
 
-    user_id         = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), primary_key=True)
+    id              = db.Column(db.Integer, primary_key=True)
     
-    dest_id         = db.Column(db.Integer, db.ForeignKey('destinations.id', ondelete='cascade'), primary_key=True)
+    user_id         = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
+    
+    dest_id         = db.Column(db.Integer, db.ForeignKey('destinations.id', ondelete='cascade'), nullable=False)
 
-   
+
+class Visit(db.Model):
+    """Date of a user's visit to a destination."""
+
+    __tablename__   = "visits"
+
+    id              = db.Column(db.Integer, primary_key=True)
+
+    # date            = db.Column(db.DateTime, nullable=False, default=datetime.today())
+    date            = db.Column(db.DateTime, nullable=False, default=date.today())
+
+    usr_dest        = db.Column(db.ForeignKey('users_destinations.id', ondelete='cascade'), nullable=False)

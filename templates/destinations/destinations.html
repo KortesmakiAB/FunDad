@@ -1,5 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-"Hi desty"
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Last Visit
+            </th>
+            <th>
+                # Visits
+            </th>
+            <th>
+                Travel Time
+            </th>
+        </tr>
+    </thead>
+    {% for destination in destinations %}
+    <tr>
+        <td>
+            <a href="#" class="link-secondary"> {{destination.name}} </a>
+        </td>
+        <td>
+            Jan 28, 2021
+        </td>
+        <td>
+            3
+        </td>
+        <td>
+            10min
+        </td>
+    </tr>
+    {% endfor%}
+</table>
 {% endblock %}
