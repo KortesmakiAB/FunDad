@@ -81,12 +81,12 @@ def create_acount():
 
     if form.validate_on_submit():
         try:
-            first_name      = form.first_name.data
-            last_name       = form.last_name.data
-            username_email  = form.username_email.data
-            password        = form.password.data
+            first_name = form.first_name.data
+            last_name = form.last_name.data
+            username_email = form.username_email.data
+            password = form.password.data
 
-            new_user        = User.signup(first_name, last_name, username_email, password)
+            new_user = User.signup(first_name, last_name, username_email, password)
 
             db.session.commit()
 
@@ -110,9 +110,10 @@ def create_acount():
 def display_destinations():
     """TODO"""
 
-    # destinations            = Destination.query.all()
+    user = User.query.get(2)
+    # raise
 
-    return render_template('destinations/destinations.html', destinations=destinations)
+    return render_template('destinations/destinations.html', user=user)
 
 
 

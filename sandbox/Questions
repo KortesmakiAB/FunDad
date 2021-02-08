@@ -20,12 +20,14 @@ Add drive times to /destinations page
 Is this the work flow I'll need?
 1- Get current location, using  navigator.geolocation.getCurrentPosition()
     1a- DONE WITH JAVASCRIPT 
-        1a1- WHEN? When page loads? Another event handler?
+        1a1- WHEN? When page loads? Another event handler? on Pageload or DOM loads. Or clickable button
 2- Call internal Flask API ROUTE (AJAX)
     2a- call Google Maps to get drive times
         destinations_times  = .distance_matrix()
         Note: mayebe return a list of tuples  (place_id, duration_in_traffic, name) or list of dicts
-        Note: Can I send a list? Or do I need to make individual calls?
+        Note: 
+            Batch request
+            Can I send a list? Or do I need to make individual calls?
         Note: Error handling in case geolocation is not supported
     2b- return JSON
 3- Update DOM		

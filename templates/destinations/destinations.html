@@ -8,26 +8,26 @@
                 Name
             </th>
             <th>
-                Last Visit
+                # Visits
             </th>
             <th>
-                # Visits
+                Last Visit
             </th>
             <th>
                 Travel Time
             </th>
         </tr>
     </thead>
-    {% for destination in destinations %}
+    {% for destination in user.destinations %}
     <tr>
         <td>
-            <a href="#" class="link-secondary"> {{destination.name}} </a>
+            <a href="#" class="link-secondary"> {{ destination.name }} </a>
         </td>
         <td>
-            {{destination.date}}
+            {{destination.visit_date|length()}}
         </td>
         <td>
-            3
+            {{ destination.visit_date[(destination.visit_date|length() - 1)].date }}
         </td>
         <td>
             10min
