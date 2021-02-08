@@ -23,14 +23,12 @@ class User(db.Model):
     __tablename__   = 'users'
 
     id              = db.Column(db.Integer, primary_key=True)
-
     first_name      = db.Column(db.String(25), nullable=False)
-
     last_name       = db.Column(db.String(25), nullable=False)
-    
     username_email  = db.Column(db.String(25), nullable=False, unique=True)
-
     password        = db.Column(db.String(100), nullable=False)
+
+    destinations    = db.relationship('Visit', secondary='users_destinations', backref='user')
 
     
     @classmethod
@@ -66,25 +64,20 @@ class Destination(db.Model):
     __tablename__   = "destinations"
 
     id              = db.Column(db.Integer, primary_key=True)
-
     name            = db.Column(db.String(100), nullable=False)
-
     place_id        = db.Column(db.String(200), nullable=False, unique=True)
-
-    latitude        = db.Column(db.Float, nullable=False)
-    
+    latitude        = db.Column(db.Float, nullable=False)    
     longitude       = db.Column(db.Float, nullable=False)
 
 
-class User_Destination(db.Model):
+class UserDestination(db.Model):
     """User/Destination combination, goreign key table"""
 
     __tablename__   = "users_destinations"
 
-    id              = db.Column(db.Integer, primary_key=True)
-    
-    user_id         = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)
-    
+    id              = db.Column(db.Integer, primary_key=True)   
+
+    user_id         = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)    
     dest_id         = db.Column(db.Integer, db.ForeignKey('destinations.id', ondelete='cascade'), nullable=False)
 
 
@@ -94,7 +87,6 @@ class Visit(db.Model):
     __tablename__   = "visits"
 
     id              = db.Column(db.Integer, primary_key=True)
-
     # date            = db.Column(db.DateTime, nullable=False, default=datetime.today())
     date            = db.Column(db.DateTime, nullable=False, default=date.today())
 
