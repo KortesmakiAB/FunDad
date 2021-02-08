@@ -25,6 +25,15 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
+
+# HTTPS for development purposes
+# $ pip install pyopenssl
+# $ flask run --cert=adhoc
+if __name__ == "__main__":
+    app.run(ssl_context='adhoc')
+# https://stackoverflow.com/questions/29458548/can-you-add-https-functionality-to-a-python-flask-web-server
+
+
 # CURR_USER_KEY = "curr_user"
 
 

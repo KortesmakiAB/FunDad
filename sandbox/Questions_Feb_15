@@ -1,0 +1,24 @@
+
+Here is a link to my evil plan:
+https://docs.google.com/document/d/17zp5fPJPdcq1sIPkXSsm57BNxn1y39aw5fxwxUxQes0/edit?usp=sharing
+
+---------------------------------------------------
+
+HTTPS:
+
+navigator.geolocation.getCurrentPosition() requires HTTPS
+
+Here is my hacky way around this...
+
+# $ pip install pyopenssl
+# $ flask run --cert=adhoc
+
+if __name__ == "__main__":
+    app.run(ssl_context='adhoc')
+
+# https://stackoverflow.com/questions/29458548/can-you-add-https-functionality-to-a-python-flask-web-server
+
+Here is what Flask docs say...
+https://flask.palletsprojects.com/en/master/security/#security-headers
+
+What would be a better way?
