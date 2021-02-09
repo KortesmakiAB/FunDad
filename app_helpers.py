@@ -1,6 +1,11 @@
 from flask import session, g
 from datetime import datetime
 
+from secret_keys import API_KEY
+import googlemaps
+
+gmaps = googlemaps.Client(key=API_KEY)
+
 CURR_USER_KEY = "curr_user"
 
 ##############################################################################
@@ -22,19 +27,20 @@ def do_logout():
 ##############################################################################
 # API route helper functions
 
-def get_travel_times(lat, lng, dest_coords):
-    """TODO"""
+def get_travel_times(request, dest_coords):
+    """Call Google Maps "distance matrix" API for travel times.
+    Include users coordinates from AJAX request and coordinates from the destinations where the logged-in user has visited. 
+    Google matrix API prefers coordinates over physical address.  """
     
+    lat = request.args.get('lat')
+    lng = request.args.get('lng')
+
     now = datetime.now()
-    resp = gmaps.distance_matrix(origins=(lat, lng), 
+    dist_time = gmaps.distance_matrix(origins=(lat, lng), 
                                         destinations=dest_coords,
                                         mode='driving',
                                         departure_time=now,
                                         traffic_model='best_guess')
 
-    # iterate over dist_time['rows'][0]['elements']
-    # return a json-ready response
-    dist_time['rows'][0]['elements'][ITERATE_ME]['duration_in_traffic']['text']
-    raise
-    import pdb
-    pdb.set_trace()
+    return [elmt['duration_in_traffic']['text'] for elmt in dist_time['rows'][0]['elements']]
+    

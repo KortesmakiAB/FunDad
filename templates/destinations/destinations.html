@@ -29,9 +29,14 @@
         <td>
             {{ destination.visit_date[(destination.visit_date|length() - 1)].date }}
         </td>
-        <td id="travel_time">
+        <td id="trvl-time-{{destination.id}}">
+            n/a
         </td>
     </tr>
     {% endfor%}
+    
 </table>
+<div>
+    <span id="error-msg"></span>
+</div>
 {% endblock %}

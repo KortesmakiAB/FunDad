@@ -3,8 +3,7 @@ import os
 
 from flask import Flask, render_template, redirect, request, flash, session, g, jsonify
 import requests
-import googlemaps
-from secret_keys import API_KEY
+
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
@@ -24,8 +23,6 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "sdasdf;lkjl;kj@#$kl;jad
 toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
-
-gmaps = googlemaps.Client(key=API_KEY)
 
 # HTTPS for development purposes
 # $ pip install pyopenssl
@@ -118,7 +115,8 @@ def create_acount():
 
 @app.route('/destinations')
 def display_destinations():
-    """TODO"""
+    """Render page displaying table of:
+         park name, number of vists, date of last visit, and travel time."""
 
     if not g.user:
         flash('Access unauthorized.', 'danger')
@@ -126,7 +124,6 @@ def display_destinations():
         return redirect('/')
 
     user = User.query.get(g.user.id)
-    # raise
 
     return render_template('destinations/destinations.html', user=user)
 
@@ -137,8 +134,10 @@ def display_destinations():
 # Begin API routes
 
 @app.route('/api/travel-times')
-def get_travel_times():
-    """TODO"""
+def get_travel_times_response():
+    """Call Google Maps "distance matrix" API for travel times.
+    Include users coordinates from AJAX request and coordinates from the destinations where the logged-in user has visited. Google matrix API prefers coordinates over physical address. 
+    Create a response dict where destination-ids are the keys and travel-times are the values."""
     
     if not g.user:
         flash('Access unauthorized.', 'danger')
@@ -148,10 +147,8 @@ def get_travel_times():
     user = User.query.get_or_404(g.user.id)
     dest_coords = [(dest.latitude, dest.longitude) for dest in user.destinations]
     
-    lat = request.args.get('lat')
-    lng = request.args.get('lng')
+    travel_times = get_travel_times(request, dest_coords)
+    trvl_time_dict = {user.destinations[i].id : travel_times[i] for i in range(len(user.destinations))}
 
-    travel_times = get_travel_times(lat, lng, dest_coords)
-
-    return jsonify(travel_times)
+    return jsonify(trvl_time_dict)
     

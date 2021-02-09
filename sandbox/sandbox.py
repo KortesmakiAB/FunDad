@@ -12,11 +12,15 @@ gmaps = googlemaps.Client(key=API_KEY)
 # .distance_matrix()        (Python wrapper)
 
 # now = datetime.now()
-# dist_time = gmaps.distance_matrix((39.724221,-84.193896),
-#                                 '1300 E 1st St, Dayton, OH 45403', 
+# dist_time = gmaps.distance_matrix(origins=('2215 Willowgrove Ave, Dayton, OH 45409'),
+#                                 destinations=['1300 E 1st St, Dayton, OH 45403','wright State University, Fairborn, OH'], 
 #                                 mode='driving',
 #                                 departure_time=now,
 #                                 traffic_model='best_guess')
+
+# len = len(dist_time['rows'][0]['elements']) - 1
+# import pdb
+# pdb.set_trace()
 
 # dist_time:
 # {'destination_addresses': ['1300 E 1st St, Dayton, OH 45403, USA'],
@@ -28,6 +32,14 @@ gmaps = googlemaps.Client(key=API_KEY)
 #  'status': 'OK'}
 
 # duration_in_traffic = dist_time['rows'][0]['elements'][0]['duration_in_traffic']['text']
+
+# {'destination_addresses': ['1300 E 1st St, Dayton, OH 45403, USA', '3640 Colonel Glenn Hwy, Dayton, OH 4
+# 5435, USA'], 'origin_addresses': ['2215 Willowgrove Ave, Dayton, OH 45409, USA'], 'rows': [{'elements':
+# [{'distance': {'text': '6.2 km', 'value': 6174}, 'duration': {'text': '11 mins', 'value': 653}, 'duratio
+# n_in_traffic': {'text': '10 mins', 'value': 591}, 'status': 'OK'}, {'distance': {'text': '21.2 km', 'val
+# ue': 21224}, 'duration': {'text': '17 mins', 'value': 1040}, 'duration_in_traffic': {'text': '17 mins',
+# 'value': 1034}, 'status': 'OK'}]}], 'status': 'OK'}
+
                 
 ###############################
 # OR  directly through googleapis
@@ -129,7 +141,7 @@ gmaps = googlemaps.Client(key=API_KEY)
 # .geocode()  AND     .reverse_geocode()    -     (Python wrapper)
 
 
-address = gmaps.geocode('Centennial Park at Houk Stream, Oakwood, OH')
+# address = gmaps.geocode('Centennial Park at Houk Stream, Oakwood, OH')
 
 # address:
 # [{'address_components': [{'long_name': '2215',
@@ -211,3 +223,7 @@ address = gmaps.geocode('Centennial Park at Houk Stream, Oakwood, OH')
 #    'place_id': 'ChIJryzQxJqGQIgRuT0Qo2yujtI',
 #    'types': ['premise']}],
 #  'status': 'OK'}
+
+
+
+
