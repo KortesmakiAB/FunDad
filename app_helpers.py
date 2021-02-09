@@ -1,4 +1,5 @@
 from flask import session, g
+from datetime import datetime
 
 CURR_USER_KEY = "curr_user"
 
@@ -19,4 +20,21 @@ def do_logout():
 
 
 ##############################################################################
-# 
+# API route helper functions
+
+def get_travel_times(lat, lng, dest_coords):
+    """TODO"""
+    
+    now = datetime.now()
+    resp = gmaps.distance_matrix(origins=(lat, lng), 
+                                        destinations=dest_coords,
+                                        mode='driving',
+                                        departure_time=now,
+                                        traffic_model='best_guess')
+
+    # iterate over dist_time['rows'][0]['elements']
+    # return a json-ready response
+    dist_time['rows'][0]['elements'][ITERATE_ME]['duration_in_traffic']['text']
+    raise
+    import pdb
+    pdb.set_trace()

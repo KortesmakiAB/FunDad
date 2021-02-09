@@ -25,6 +25,7 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
+gmaps = googlemaps.Client(key=API_KEY)
 
 # HTTPS for development purposes
 # $ pip install pyopenssl
@@ -119,7 +120,12 @@ def create_acount():
 def display_destinations():
     """TODO"""
 
-    user = User.query.get(2)
+    if not g.user:
+        flash('Access unauthorized.', 'danger')
+
+        return redirect('/')
+
+    user = User.query.get(g.user.id)
     # raise
 
     return render_template('destinations/destinations.html', user=user)
@@ -130,3 +136,22 @@ def display_destinations():
 ##############################################################################
 # Begin API routes
 
+@app.route('/api/travel-times')
+def get_travel_times():
+    """TODO"""
+    
+    if not g.user:
+        flash('Access unauthorized.', 'danger')
+
+        return redirect('/')
+    
+    user = User.query.get_or_404(g.user.id)
+    dest_coords = [(dest.latitude, dest.longitude) for dest in user.destinations]
+    
+    lat = request.args.get('lat')
+    lng = request.args.get('lng')
+
+    travel_times = get_travel_times(lat, lng, dest_coords)
+
+    return jsonify(travel_times)
+    
