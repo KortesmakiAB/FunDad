@@ -1,7 +1,7 @@
 # for setting environment variables (when deploying to Heroku or testing)
 import os
 
-from flask import Flask, render_template, redirect, request, flash, session, g, jsonify
+from flask import Flask, render_template, redirect, request, flash, session, g, jsonify, url_for
 import requests
 
 from flask_debugtoolbar import DebugToolbarExtension
@@ -58,7 +58,7 @@ def landing_page():
 
 
 ##############################################################################
-# login & signup routes
+# login, logout, & signup routes
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
@@ -73,15 +73,24 @@ def login_user():
             do_login(returning_user)
             flash(f'Welcome back to FUN DAD, {returning_user.first_name}!', 'success')
 
-            return redirect('/destinations')
+            return redirect(url_for('display_destinations'))
 
         flash('Invalid Username/Password combination', 'danger')
 
     return render_template('users/login.html', form=form)
 
 
+@app.route('/logout')
+def logout_user():
+    """Authenticate user or serve login form."""
+    
+    do_logout()
+
+    return redirect(url_for('landing_page'))
+
+
 @app.route('/signup', methods=['GET', 'POST'])
-def create_acount():
+def create_account():
     """Create new user and add to DB. Redirect to landing page."""
 
     form = UserSignupForm()
@@ -99,6 +108,7 @@ def create_acount():
 
         except IntegrityError:
             flash("Username/Email already taken", 'danger')
+
             return render_template('users/signup.html', form=form)
 
         do_login(new_user)
@@ -121,7 +131,7 @@ def display_destinations():
     if not g.user:
         flash('Access unauthorized.', 'danger')
 
-        return redirect('/')
+        return redirect(url_for('landing_page'))
 
     user = User.query.get(g.user.id)
 
@@ -142,7 +152,7 @@ def get_travel_times_response():
     if not g.user:
         flash('Access unauthorized.', 'danger')
 
-        return redirect('/')
+        return redirect(url_for('landing_page'))
     
     user = User.query.get_or_404(g.user.id)
     dest_coords = [(dest.latitude, dest.longitude) for dest in user.destinations]

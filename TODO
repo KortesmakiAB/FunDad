@@ -1,0 +1,4 @@
+
+REMOVE error messages that get appended from app.js?
+	Or do they dissapear on refresh? I don't think so.
+	Is there a better way to handle these error messages?
