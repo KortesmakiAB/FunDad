@@ -36,6 +36,13 @@ def check_authorization():
 ##############################################################################
 # API route helper functions
 
+def check_API_authorization():
+    """Is a user logged in? If not, return True."""
+
+    if not g.user:
+        return True
+
+
 def get_travel_times(request, dest_coords):
     """Call Google Maps "distance matrix" API for travel times.
     Include users coordinates from AJAX request and coordinates from the destinations where the logged-in user has visited. 
@@ -56,17 +63,13 @@ def get_travel_times(request, dest_coords):
     
 
 def make_dest_dicts(user):
-    """TODO"""
+    """Make dictionary containing data for current users previous destinations."""
 
     return [{
         'name': dest.name,
-        # 'coords': f'{dest.latitude},{dest.longitude}',
         'coords': {'lat': dest.latitude, 'lng': dest.longitude},
         'place_id': dest.place_id,
-        # 'usr_coords': g.user.coords
     } for dest in user.destinations]
     
-    # import pdb
-    # pdb.set_trace()
 
     

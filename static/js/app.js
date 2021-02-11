@@ -9,7 +9,6 @@ function callGetCurrPos(success, error, resource){
     if (window.location.href === `${base_url}/${resource}`){
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(success, error);
-            
         } 
         else {
             errorMsg.innerText = "Geolocation is not supported by this browser.";
@@ -36,7 +35,7 @@ async function nextAction(){
         appendTravelTimesDOM(travelTimes);
     }
     else if (window.location.href === `${base_url}/map-view`){
-        makeMap()
+        makeMap();
     }
 }
 
@@ -63,14 +62,14 @@ function showError(error) {
 // DESTINATIONS Page
 
 window.onload = function destination() {
-    const urlResource = 'destinations'
-
-    callGetCurrPos(handleSuccess, showError, urlResource)
+    const urlResource = 'destinations';
+    callGetCurrPos(handleSuccess, showError, urlResource);
 }
 
 async function getTravelTimes(){
     resp = await axios.get(`${base_url}/api/travel-times`, { params: coords});
-    return resp.data
+    console.log(resp)
+    return resp.data;
 }
 
 function appendTravelTimesDOM(obj){
@@ -85,7 +84,6 @@ function appendTravelTimesDOM(obj){
 
 function initMap(){ 
     const urlResource = 'map-view';
-
     callGetCurrPos(handleSuccess, showError, urlResource); 
 }
 
@@ -100,12 +98,12 @@ async function makeMap(){
         map: map,
         icon: {
             url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-          }
+        }
     });
 
     destData = await axios.get(`${base_url}/api/coordinates`);
 
-    addDestinationMarkers(destData.data, map, coords)
+    addDestinationMarkers(destData.data, map, coords);
 }
 
 function addDestinationMarkers(destData, map, coords){

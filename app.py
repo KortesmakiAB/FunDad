@@ -59,6 +59,7 @@ def landing_page():
 
     return redirect(url_for('display_destinations'))
 
+
 ##############################################################################
 # login, logout, & signup routes
 
@@ -143,7 +144,7 @@ def display_destinations():
 
 @app.route('/map-view')
 def display_map_view():
-    """TODO"""
+    """Display HTML for map view page."""
 
     if check_authorization():
         return redirect(url_for('landing_page'))
@@ -158,15 +159,19 @@ def display_map_view():
 ##############################################################################
 # Begin API routes
 
+unauth = {
+    'unauthorized': 'Access unauthorized.'
+}
+
+
 @app.route('/api/travel-times')
 def get_travel_times_response():
     """Call Google Maps "distance matrix" API for travel times.
     Include users coordinates from AJAX request and coordinates from the destinations where the logged-in user has visited. Google matrix API prefers coordinates over physical address. 
     Create a response dict where destination-ids are the keys and travel-times are the values."""
     
-    # TODO
-    # if check_API_authorization():
-    #     return TODO
+    if check_API_authorization():
+        return jsonify(unauth)
         
     user = User.query.get_or_404(g.user.id)
     dest_coords = [(dest.latitude, dest.longitude) for dest in user.destinations]
@@ -176,13 +181,13 @@ def get_travel_times_response():
 
     return jsonify(trvl_time_dict)
 
-@app.route('/api/coordinates')
-def get_destination_coords():
-    """TODO"""
 
-    # TODO
-    # if check_API_authorization():
-    #     return TODO
+@app.route('/api/coordinates')
+def get_destination_data():
+    """Get data for current users previous destinations."""
+
+    if check_API_authorization():
+        return jsonify(unauth)
 
     user = User.query.get_or_404(g.user.id)
 
