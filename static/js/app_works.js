@@ -1,7 +1,13 @@
-const base_url = 'https://127.0.0.1:5000';
+// before I started messing with stuff...
+
+const base_url = 'http://127.0.0.1:5000';
 const errorMsg = document.getElementById('error-msg');
 
-window.onload = function() {
+
+/////////////////////////////////////////////////////////////////////
+// DESTINATIONS Page
+
+window.onload = function destination() {
     if (window.location.href === `${base_url}/destinations`){
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(handleSuccess, showError);
@@ -11,6 +17,7 @@ window.onload = function() {
         }
     }
 }
+
 
 async function handleSuccess(position){
     const lat = position.coords.latitude;
@@ -26,10 +33,12 @@ async function handleSuccess(position){
     appendTravelTimesDOM(travelTimes);
 }
 
+
 async function getTravelTimes(coords){
     resp = await axios.get(`${base_url}/api/travel-times`, { params: coords});
     return resp.data
 }
+
 
 function appendTravelTimesDOM(obj){
     for (key of Object.keys(obj)){
@@ -37,6 +46,7 @@ function appendTravelTimesDOM(obj){
         td.innerText = obj[key];
     }
 }
+
 
 // attr: https://www.w3schools.com/html/html5_geolocation.asp
 function showError(error) {
@@ -55,3 +65,5 @@ function showError(error) {
         break;
     }
   }
+
+

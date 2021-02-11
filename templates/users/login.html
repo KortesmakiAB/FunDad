@@ -1,4 +1,4 @@
-{% extends 'users/render_form.html' %}
+{% extends 'users/render-form.html' %}
 
 {% block form_message %}
 <h2 class="join-message">Login to FUN DAD!</h2>
@@ -10,6 +10,3 @@
 </div>
 {% endblock %}
 
-{% block signup_or_login_link %}
-<a href="{{ url_for('create_account') }}">Create account</a>
-{% endblock %}

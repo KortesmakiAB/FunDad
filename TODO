@@ -2,3 +2,6 @@
 REMOVE error messages that get appended from app.js?
 	Or do they dissapear on refresh? I don't think so.
 	Is there a better way to handle these error messages?
+
+Give user option to get drive time in case they tap the deny location button or geolocation doesn't work the first time.
+

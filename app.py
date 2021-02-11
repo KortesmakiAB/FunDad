@@ -32,7 +32,7 @@ if __name__ == "__main__":
 # https://stackoverflow.com/questions/29458548/can-you-add-https-functionality-to-a-python-flask-web-server
 
 
-# CURR_USER_KEY = "curr_user"
+CURR_USER_KEY = "curr_user"
 
 
 ##############################################################################
@@ -54,8 +54,10 @@ def add_user_to_g():
 def landing_page():
     """Display landing page"""
 
-    return render_template('home-anon.html')
+    if check_authorization():
+        return render_template('home-anon.html')
 
+    return redirect(url_for('display_destinations'))
 
 ##############################################################################
 # login, logout, & signup routes
@@ -128,14 +130,27 @@ def display_destinations():
     """Render page displaying table of:
          park name, number of vists, date of last visit, and travel time."""
 
-    if not g.user:
-        flash('Access unauthorized.', 'danger')
-
+    if check_authorization():
         return redirect(url_for('landing_page'))
 
     user = User.query.get(g.user.id)
 
     return render_template('destinations/destinations.html', user=user)
+
+
+##############################################################################
+# Map View routes
+
+@app.route('/map-view')
+def display_map_view():
+    """TODO"""
+
+    if check_authorization():
+        return redirect(url_for('landing_page'))
+
+    user = User.query.get(g.user.id)
+
+    return render_template('map-view.html', user=user)
 
 
 
@@ -149,11 +164,10 @@ def get_travel_times_response():
     Include users coordinates from AJAX request and coordinates from the destinations where the logged-in user has visited. Google matrix API prefers coordinates over physical address. 
     Create a response dict where destination-ids are the keys and travel-times are the values."""
     
-    if not g.user:
-        flash('Access unauthorized.', 'danger')
-
-        return redirect(url_for('landing_page'))
-    
+    # TODO
+    # if check_API_authorization():
+    #     return TODO
+        
     user = User.query.get_or_404(g.user.id)
     dest_coords = [(dest.latitude, dest.longitude) for dest in user.destinations]
     
@@ -161,4 +175,20 @@ def get_travel_times_response():
     trvl_time_dict = {user.destinations[i].id : travel_times[i] for i in range(len(user.destinations))}
 
     return jsonify(trvl_time_dict)
+
+@app.route('/api/coordinates')
+def get_destination_coords():
+    """TODO"""
+
+    # TODO
+    # if check_API_authorization():
+    #     return TODO
+
+    user = User.query.get_or_404(g.user.id)
+
+    destinations_data = make_dest_dicts(user)
+    
+    return jsonify(destinations_data)
+    
+
     

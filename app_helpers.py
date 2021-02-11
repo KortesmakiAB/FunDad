@@ -1,4 +1,4 @@
-from flask import session, g
+from flask import session, g, flash
 from datetime import datetime
 
 from secret_keys import API_KEY
@@ -24,6 +24,15 @@ def do_logout():
         del session[CURR_USER_KEY]
 
 
+def check_authorization():
+    """Is a user logged in? If not, return True."""
+
+    if not g.user:
+        flash('Access unauthorized.', 'danger')
+
+        return True
+
+
 ##############################################################################
 # API route helper functions
 
@@ -34,6 +43,7 @@ def get_travel_times(request, dest_coords):
     
     lat = request.args.get('lat')
     lng = request.args.get('lng')
+    g.user.coordinates = f'{lat},{lng}'
 
     now = datetime.now()
     dist_time = gmaps.distance_matrix(origins=(lat, lng), 
@@ -43,4 +53,20 @@ def get_travel_times(request, dest_coords):
                                         traffic_model='best_guess')
 
     return [elmt['duration_in_traffic']['text'] for elmt in dist_time['rows'][0]['elements']]
+    
+
+def make_dest_dicts(user):
+    """TODO"""
+
+    return [{
+        'name': dest.name,
+        # 'coords': f'{dest.latitude},{dest.longitude}',
+        'coords': {'lat': dest.latitude, 'lng': dest.longitude},
+        'place_id': dest.place_id,
+        # 'usr_coords': g.user.coords
+    } for dest in user.destinations]
+    
+    # import pdb
+    # pdb.set_trace()
+
     
