@@ -10,6 +10,7 @@ from sqlalchemy.exc import IntegrityError
 from forms import *
 from models import *
 from app_helpers import *
+from secret_keys import API_MAP_KEY
 
 app = Flask(__name__)
 
@@ -139,6 +140,17 @@ def display_destinations():
     return render_template('destinations/destinations.html', user=user)
 
 
+@app.route('/destinations/checkin')
+def serve_check_in_form():
+    """Serve form for user to check in at a destination."""
+
+    form = DestinationCheckInForm()
+
+    user = User.query.get(g.user.id)
+
+    return render_template('destinations/checkin.html', user=user, form=form)
+
+
 ##############################################################################
 # Map View routes
 
@@ -151,7 +163,7 @@ def display_map_view():
 
     user = User.query.get(g.user.id)
 
-    return render_template('map-view.html', user=user)
+    return render_template('map-view.html', user=user, key=API_MAP_KEY)
 
 
 
@@ -195,5 +207,18 @@ def get_destination_data():
     
     return jsonify(destinations_data)
     
+
+@app.route('/api/destinations/checkin', methods=['POST'])
+def check_in_destination():
+    """Accept coords. Return address 
+    TODO and maybe place_id"""
+
+    if check_API_authorization():
+        return jsonify(unauth)
+    
+    get_reverse_geocode(request)
+    
+    # raise
+    return (jsonify(), 201)
 
     

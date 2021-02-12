@@ -28,7 +28,6 @@ class User(db.Model):
     last_name      = db.Column(db.String(25), nullable=False)
     username_email = db.Column(db.String(25), nullable=False, unique=True)
     password       = db.Column(db.String(100), nullable=False)
-    coordinates    = db.Column(db.String(100))
 
     destinations   = db.relationship('Destination', secondary='users_destinations', backref='user')
     visit_date     = db.relationship('Visit', secondary='users_destinations', backref='user')

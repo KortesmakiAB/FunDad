@@ -50,7 +50,7 @@ def get_travel_times(request, dest_coords):
     
     lat = request.args.get('lat')
     lng = request.args.get('lng')
-    g.user.coordinates = f'{lat},{lng}'
+    # g.user.coordinates = f'{lat},{lng}'
 
     now = datetime.now()
     dist_time = gmaps.distance_matrix(origins=(lat, lng), 
@@ -72,4 +72,15 @@ def make_dest_dicts(user):
     } for dest in user.destinations]
     
 
+def get_reverse_geocode(request):
+    """TODO"""
     
+    lat_lng = request.json
+
+    address = gmaps.reverse_geocode(latlng=lat_lng,
+                                    result_type='street_address',
+                                    location_type='ROOFTOP')
+    import pdb
+    pdb.set_trace()
+
+    return 

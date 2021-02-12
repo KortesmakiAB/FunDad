@@ -4,6 +4,11 @@ https://docs.google.com/document/d/17zp5fPJPdcq1sIPkXSsm57BNxn1y39aw5fxwxUxQes0/
 
 ---------------------------------------------------
 
+app.js
+function addDestinationMarkers()
+Why does the depricated function 'addListener' work when the supported function addEventListener() does not work? (My browser is up to date)
+Uncaught (in promise) TypeError: marker.addEventListener is not a function
+
 HTTPS:
 
 navigator.geolocation.getCurrentPosition() requires HTTPS

@@ -1,0 +1,21 @@
+{% extends 'users/render-form.html' %}
+
+{% block form_message %}
+<h2 class="join-message">Check-In at a new destination!</h2>
+{% endblock %}
+
+{% block button %}
+<div class="d-inline">
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Checkin</button>
+</div>
+{% endblock %}
+
+{% block addy_button %}
+<form class="d-inline" id="get-address" action="{{ url_for('check_in_destination') }}" method="POST">
+    <button type="submit" class="btn btn-outline-secondary btn-lg">What's my address?</button>
+</form>
+{% endblock %}
+
+{% block script %}
+<script src="/static/js/checkin.js"></script>
+{% endblock %}

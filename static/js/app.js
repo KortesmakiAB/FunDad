@@ -5,13 +5,14 @@ let coords = {};
 /////////////////////////////////////////////////////////////////////
 // SHARED functions
 
-function callGetCurrPos(success, error, resource){
+function callGetCurrPos(resource){
     if (window.location.href === `${base_url}/${resource}`){
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(success, error);
+            navigator.geolocation.getCurrentPosition(handleSuccess, showError);
         } 
         else {
             errorMsg.innerText = "Geolocation is not supported by this browser.";
+            alert('am I in trouble?')
         }
     }
 }
@@ -30,12 +31,15 @@ async function handleSuccess(position){
 
 async function nextAction(){
     if (window.location.href === `${base_url}/destinations`){
-        travelTimes = await getTravelTimes(coords);
-
+        const travelTimes = await getTravelTimes(coords);
         appendTravelTimesDOM(travelTimes);
     }
     else if (window.location.href === `${base_url}/map-view`){
         makeMap();
+    }
+    else if (window.location.href === `${base_url}/destinations/checkin`){
+        const address = await callReverseGeocode()
+        appendAddressToForm(address)
     }
 }
 
@@ -63,12 +67,11 @@ function showError(error) {
 
 window.onload = function destination() {
     const urlResource = 'destinations';
-    callGetCurrPos(handleSuccess, showError, urlResource);
+    callGetCurrPos(urlResource);
 }
 
 async function getTravelTimes(){
     resp = await axios.get(`${base_url}/api/travel-times`, { params: coords});
-    console.log(resp)
     return resp.data;
 }
 
@@ -84,7 +87,7 @@ function appendTravelTimesDOM(obj){
 
 function initMap(){ 
     const urlResource = 'map-view';
-    callGetCurrPos(handleSuccess, showError, urlResource); 
+    callGetCurrPos(urlResource); 
 }
 
 async function makeMap(){
@@ -103,10 +106,10 @@ async function makeMap(){
 
     destData = await axios.get(`${base_url}/api/coordinates`);
 
-    addDestinationMarkers(destData.data, map, coords);
+    addDestinationMarkers(destData.data, map);
 }
 
-function addDestinationMarkers(destData, map, coords){
+function addDestinationMarkers(destData, map){
     const usrCoords = `${coords.lat},${coords.lng}`;
 
     for (dest of destData){
@@ -118,9 +121,9 @@ function addDestinationMarkers(destData, map, coords){
 
         const contentString =
             `<div id="content"> 
-                <a href="https://www.google.com/maps/dir/?api=1&origin=${usrCoords}&destination=${dest.coords}&destination_place_id=${dest.place_id}&dir_action=navigate">${dest.name}</a>
+                <a href="https://www.google.com/maps/dir/?api=1&origin=${usrCoords}&destination=${dest.coords.lat},${dest.coords.lng}&destination_place_id=${dest.place_id}&dir_action=navigate">${dest.name}</a>
             </div>`;
-
+        
         const infowindow = new google.maps.InfoWindow({
             content: contentString,
             maxWidth: 200,
