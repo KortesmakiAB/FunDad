@@ -140,15 +140,28 @@ gmaps = googlemaps.Client(key=API_KEY)
 ###############################
 # .geocode()  AND     .reverse_geocode()    -     (Python wrapper)
 
-[{'address_components': [{'long_name': '1352', 'short_name': '1352', 'types': ['street_number']}, {'long_name': 'Sanzon Drive', 'short_name': 'Sanzon Dr', 'types': ['route']}, {'long_name':
-'Fairborn', 'short_name': 'Fairborn', 'types': ['locality', 'political']}, {'long_name': 'Bath Township', 'short_name': 'Bath Township', 'types': ['administrative_area_level_3', 'political']
-}, {'long_name': 'Greene County', 'short_name': 'Greene County', 'types': ['administrative_area_level_2', 'political']}, {'long_name': 'Ohio', 'short_name': 'OH', 'types': ['administrative_a
-rea_level_1', 'political']}, {'long_name': 'United States', 'short_name': 'US', 'types': ['country', 'political']}, {'long_name': '45324', 'short_name': '45324', 'types': ['postal_code']}, {
-'long_name': '2072', 'short_name': '2072', 'types': ['postal_code_suffix']}], 'formatted_address': '1352 Sanzon Dr, Fairborn, OH 45324, USA', 'geometry': {'location': {'lat': 39.778571, 'lng
-': -84.070058}, 'location_type': 'ROOFTOP', 'viewport': {'northeast': {'lat': 39.7799199802915, 'lng': -84.06870901970849}, 'southwest': {'lat': 39.7772220197085, 'lng': -84.0714069802915}}}
-, 'place_id': 'ChIJpyKN-O-cQIgRyVKYBKlYqPc', 'plus_code': {'compound_code': 'QWHH+CX Fairborn, OH, USA', 'global_code': '86FQQWHH+CX'}, 'types': ['street_address']}]
+x = [{'address_components': [{'long_name': '1352', 'short_name': '1352', 'types': ['street_number']}, 
+                            {'long_name': 'Sanzon Drive', 'short_name': 'Sanzon Dr', 'types': ['route']}, 
+                            {'long_name':'Fairborn', 'short_name': 'Fairborn', 'types': ['locality', 'political']}, 
+                            {'long_name': 'Bath Township', 'short_name': 'Bath Township', 'types': ['administrative_area_level_3', 'political'] }, 
+                            {'long_name': 'Greene County', 'short_name': 'Greene County', 'types': ['administrative_area_level_2', 'political']}, 
+                            {'long_name': 'Ohio', 'short_name': 'OH', 'types': ['administrative_area_level_1', 'political']}, 
+                            {'long_name': 'United States', 'short_name': 'US', 'types': ['country', 'political']}, 
+                            {'long_name': '45324', 'short_name': '45324', 'types': ['postal_code']}, 
+                            {'long_name': '2072', 'short_name': '2072', 'types': ['postal_code_suffix']}], 
+    'formatted_address': '1352 Sanzon Dr, Fairborn, OH 45324, USA', 
+    'geometry': {'location': {'lat': 39.778571, 'lng': -84.070058}, 
+                'location_type': 'ROOFTOP', 
+                'viewport': {'northeast': {'lat': 39.7799199802915, 'lng': -84.06870901970849}, 
+                'southwest': {'lat': 39.7772220197085, 'lng': -84.0714069802915}}}, 
+    'place_id': 'ChIJpyKN-O-cQIgRyVKYBKlYqPc', 
+    'plus_code': {'compound_code': 'QWHH+CX Fairborn, OH, USA', 'global_code': '86FQQWHH+CX'}, 
+    'types': ['street_address']}]
 
 
+y = x[0]['formatted_address']
+import pdb
+pdb.set_trace()
 
 # address = gmaps.geocode('Centennial Park at Houk Stream, Oakwood, OH')
 

@@ -216,9 +216,9 @@ def check_in_destination():
     if check_API_authorization():
         return jsonify(unauth)
     
-    get_reverse_geocode(request)
+    return (jsonify({
+        'address': get_reverse_geocode(request)
+    }), 201) 
     
-    # raise
-    return (jsonify(), 201)
 
     

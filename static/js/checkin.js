@@ -16,5 +16,6 @@ async function callReverseGeocode(){
 }
 
 function appendAddressToForm(address){
-    console.log(address);
+    const addyInput = document.getElementById('address');
+    addyInput.value = address.address;
 }

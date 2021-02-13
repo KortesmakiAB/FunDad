@@ -73,14 +73,12 @@ def make_dest_dicts(user):
     
 
 def get_reverse_geocode(request):
-    """TODO"""
+    """Use coordinates to get street address via Google Reverse Geocoding API."""
     
     lat_lng = request.json
 
     address = gmaps.reverse_geocode(latlng=lat_lng,
-                                    result_type='street_address',
-                                    location_type='ROOFTOP')
-    import pdb
-    pdb.set_trace()
+                                    result_type='street_address')
+                                    # location_type='ROOFTOP')
 
-    return 
+    return address[0]['formatted_address']
