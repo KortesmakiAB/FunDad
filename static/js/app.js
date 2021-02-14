@@ -37,7 +37,7 @@ async function nextAction(){
     else if (window.location.href === `${base_url}/map-view`){
         makeMap();
     }
-    else if (window.location.href === `${base_url}/destinations/checkin`){
+    else if (window.location.href === `${base_url}/destinations/new`){
         const address = await callReverseGeocode()
         appendAddressToForm(address)
     }

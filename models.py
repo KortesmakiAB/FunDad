@@ -79,8 +79,7 @@ class UserDestination(db.Model):
 
     __tablename__ = "users_destinations"
 
-    id      = db.Column(db.Integer, primary_key=True)   
-
+    id      = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)    
     dest_id = db.Column(db.Integer, db.ForeignKey('destinations.id', ondelete='cascade'), nullable=False)
 
@@ -91,5 +90,4 @@ class Visit(db.Model):
     __tablename__ = "visits"
     id       = db.Column(db.Integer, primary_key=True)
     date     = db.Column(db.Date, nullable=False, default=date.today())
-
     usr_dest = db.Column(db.ForeignKey('users_destinations.id', ondelete='cascade'), nullable=False)

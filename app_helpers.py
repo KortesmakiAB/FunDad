@@ -8,6 +8,16 @@ gmaps = googlemaps.Client(key=API_KEY)
 
 CURR_USER_KEY = "curr_user"
 
+
+##############################################################################
+# Global variables
+
+messages = {
+    'unauth' : {'unauthorized': 'Access unauthorized.'},
+    'dest_success' : {'success': 'Destination added successfully.'}
+}
+
+
 ##############################################################################
 # User login/logout helper functions
 
@@ -70,15 +80,32 @@ def make_dest_dicts(user):
         'coords': {'lat': dest.latitude, 'lng': dest.longitude},
         'place_id': dest.place_id,
     } for dest in user.destinations]
-    
+
+
+def geocode_address(address):
+    """Use address to get latitude, longitude, place_id."""
+
+    resp = gmaps.geocode(address)
+
+    return {
+        'place_id': resp[0]['place_id'],
+        'latitude': resp[0]['geometry']['location']['lat'],
+        'longitude': resp[0]['geometry']['location']['lng']        
+    }
+
 
 def get_reverse_geocode(request):
-    """Use coordinates to get street address via Google Reverse Geocoding API."""
+    """Use coordinates to get street address and place id via Google Reverse Geocoding API."""
     
-    lat_lng = request.json
+    lat = request.args.get('lat')
+    lng = request.args.get('lng')
+    user_coords = f'{lat},{lng}'
 
-    address = gmaps.reverse_geocode(latlng=lat_lng,
+    address = gmaps.reverse_geocode(latlng=user_coords,
                                     result_type='street_address')
                                     # location_type='ROOFTOP')
-
-    return address[0]['formatted_address']
+    
+    return {
+        'address': address[0]['formatted_address'],
+        'place_id': address[0]['formatted_address']
+    }

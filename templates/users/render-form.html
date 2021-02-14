@@ -4,7 +4,7 @@
   {% block form_message %}
   {% endblock %}
 
-<form method="POST" id="user_form" class="d-inline">
+<form method="POST" id="user-form" class="d-inline">
     {{ form.hidden_tag() }}
 
     {% for field in form if field.widget.input_type != 'hidden' %}

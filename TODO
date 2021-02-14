@@ -5,3 +5,5 @@ REMOVE error messages that get appended from app.js?
 
 Give user option to get drive time in case they tap the deny location button or geolocation doesn't work the first time.
 
+Error handling:
+	What if a user checks in at a new location, but the place_id already exists?

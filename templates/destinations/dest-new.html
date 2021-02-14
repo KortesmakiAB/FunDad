@@ -1,7 +1,7 @@
 {% extends 'users/render-form.html' %}
 
 {% block form_message %}
-<h2 class="join-message">Check-in at a new destination!</h2>
+<h2 class="join-message">Add a new destination!</h2>
 {% endblock %}
 
 {% block button %}
@@ -11,11 +11,11 @@
 {% endblock %}
 
 {% block addy_button %}
-<form class="d-inline" id="get-address" action="{{ url_for('check_in_destination') }}" method="POST">
+<form class="d-inline" id="get-address" method="POST">
     <button type="submit" class="btn btn-outline-secondary btn-lg">What's my address?</button>
 </form>
 {% endblock %}
 
 {% block script %}
-<script src="/static/js/checkin.js"></script>
+<script src="/static/js/dest-new.js"></script>
 {% endblock %}

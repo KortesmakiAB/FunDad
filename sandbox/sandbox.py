@@ -138,66 +138,70 @@ gmaps = googlemaps.Client(key=API_KEY)
 # GEOCODE   -   Address into coordinates
 
 ###############################
-# .geocode()  AND     .reverse_geocode()    -     (Python wrapper)
-
-x = [{'address_components': [{'long_name': '1352', 'short_name': '1352', 'types': ['street_number']}, 
-                            {'long_name': 'Sanzon Drive', 'short_name': 'Sanzon Dr', 'types': ['route']}, 
-                            {'long_name':'Fairborn', 'short_name': 'Fairborn', 'types': ['locality', 'political']}, 
-                            {'long_name': 'Bath Township', 'short_name': 'Bath Township', 'types': ['administrative_area_level_3', 'political'] }, 
-                            {'long_name': 'Greene County', 'short_name': 'Greene County', 'types': ['administrative_area_level_2', 'political']}, 
-                            {'long_name': 'Ohio', 'short_name': 'OH', 'types': ['administrative_area_level_1', 'political']}, 
-                            {'long_name': 'United States', 'short_name': 'US', 'types': ['country', 'political']}, 
-                            {'long_name': '45324', 'short_name': '45324', 'types': ['postal_code']}, 
-                            {'long_name': '2072', 'short_name': '2072', 'types': ['postal_code_suffix']}], 
-    'formatted_address': '1352 Sanzon Dr, Fairborn, OH 45324, USA', 
-    'geometry': {'location': {'lat': 39.778571, 'lng': -84.070058}, 
-                'location_type': 'ROOFTOP', 
-                'viewport': {'northeast': {'lat': 39.7799199802915, 'lng': -84.06870901970849}, 
-                'southwest': {'lat': 39.7772220197085, 'lng': -84.0714069802915}}}, 
-    'place_id': 'ChIJpyKN-O-cQIgRyVKYBKlYqPc', 
-    'plus_code': {'compound_code': 'QWHH+CX Fairborn, OH, USA', 'global_code': '86FQQWHH+CX'}, 
-    'types': ['street_address']}]
-
-
-y = x[0]['formatted_address']
-import pdb
-pdb.set_trace()
+# .geocode()            (Python wrapper)
 
 # address = gmaps.geocode('Centennial Park at Houk Stream, Oakwood, OH')
 
 # address:
-# [{'address_components': [{'long_name': '2215',
-#     'short_name': '2215',
-#     'types': ['street_number']},
-#    {'long_name': 'Willowgrove Avenue',
-#     'short_name': 'Willowgrove Ave',
-#     'types': ['route']},
-#    {'long_name': 'Dayton',
-#     'short_name': 'Dayton',
-#     'types': ['locality', 'political']},
-#    {'long_name': 'Montgomery County',
-#     'short_name': 'Montgomery County',
-#     'types': ['administrative_area_level_2', 'political']},
-#    {'long_name': 'Ohio',
-#     'short_name': 'OH',
-#     'types': ['administrative_area_level_1', 'political']},
-#    {'long_name': 'United States',
-#     'short_name': 'US',
-#     'types': ['country', 'political']},
-#    {'long_name': '45409', 'short_name': '45409', 'types': ['postal_code']},
-#    {'long_name': '1952',
-#     'short_name': '1952',
-#     'types': ['postal_code_suffix']}],
-#   'formatted_address': '2215 Willowgrove Ave, Dayton, OH 45409, USA',
-#   'geometry': {'bounds': {'northeast': {'lat': 39.7242003, 'lng': -84.1942423},
-#     'southwest': {'lat': 39.7240683, 'lng': -84.19441719999999}},
-#    'location': {'lat': 39.72412449999999, 'lng': -84.1943411},
-#    'location_type': 'ROOFTOP',
-#    'viewport': {'northeast': {'lat': 39.7254832802915,
-#      'lng': -84.19298076970848},
-#     'southwest': {'lat': 39.7227853197085, 'lng': -84.1956787302915}}},
-#   'place_id': 'ChIJryzQxJqGQIgRuT0Qo2yujtI',
-#   'types': ['premise']}]
+v = [{'address_components': [{'long_name': '2215',
+                        'short_name': '2215',
+                         'types': ['street_number']},
+                        {'long_name': 'Willowgrove Avenue',
+                        'short_name': 'Willowgrove Ave',
+                        'types': ['route']},
+                        {'long_name': 'Dayton',
+                            'short_name': 'Dayton',
+                            'types': ['locality', 'political']},
+                        {'long_name': 'Montgomery County',
+                            'short_name': 'Montgomery County',
+                            'types': ['administrative_area_level_2', 'political']},
+                        {'long_name': 'Ohio',
+                            'short_name': 'OH',
+                            'types': ['administrative_area_level_1', 'political']},
+                        {'long_name': 'United States',
+                            'short_name': 'US',
+                            'types': ['country', 'political']},
+                        {'long_name': '45409', 'short_name': '45409', 'types': ['postal_code']},
+                        {'long_name': '1952',
+                            'short_name': '1952',
+                            'types': ['postal_code_suffix']}],
+  'formatted_address': '2215 Willowgrove Ave, Dayton, OH 45409, USA',
+  'geometry': {'bounds': {'northeast': {'lat': 39.7242003, 'lng': -84.1942423},
+                        'southwest': {'lat': 39.7240683, 'lng': -84.19441719999999}},
+                'location': {'lat': 39.72412449999999, 'lng': -84.1943411},
+                'location_type': 'ROOFTOP',
+                'viewport': {'northeast': {'lat': 39.7254832802915,
+                                            'lng': -84.19298076970848},
+                            'southwest': {'lat': 39.7227853197085, 'lng': -84.1956787302915}}},
+  'place_id': 'ChIJryzQxJqGQIgRuT0Qo2yujtI',
+  'types': ['premise']}]
+
+vv = v[0]['geometry']['location']
+
+###############################
+# .reverse_geocode()    (Python wrapper)
+
+
+# x = [{'address_components': [{'long_name': '1352', 'short_name': '1352', 'types': ['street_number']}, 
+#                             {'long_name': 'Sanzon Drive', 'short_name': 'Sanzon Dr', 'types': ['route']}, 
+#                             {'long_name':'Fairborn', 'short_name': 'Fairborn', 'types': ['locality', 'political']}, 
+#                             {'long_name': 'Bath Township', 'short_name': 'Bath Township', 'types': ['administrative_area_level_3', 'political'] }, 
+#                             {'long_name': 'Greene County', 'short_name': 'Greene County', 'types': ['administrative_area_level_2', 'political']}, 
+#                             {'long_name': 'Ohio', 'short_name': 'OH', 'types': ['administrative_area_level_1', 'political']}, 
+#                             {'long_name': 'United States', 'short_name': 'US', 'types': ['country', 'political']}, 
+#                             {'long_name': '45324', 'short_name': '45324', 'types': ['postal_code']}, 
+#                             {'long_name': '2072', 'short_name': '2072', 'types': ['postal_code_suffix']}], 
+#     'formatted_address': '1352 Sanzon Dr, Fairborn, OH 45324, USA', 
+#     'geometry': {'location': {'lat': 39.778571, 'lng': -84.070058}, 
+#                 'location_type': 'ROOFTOP', 
+#                 'viewport': {'northeast': {'lat': 39.7799199802915, 'lng': -84.06870901970849}, 
+#                 '             southwest': {'lat': 39.7772220197085, 'lng': -84.0714069802915}}}, 
+#     'place_id': 'ChIJpyKN-O-cQIgRyVKYBKlYqPc', 
+#     'plus_code': {'compound_code': 'QWHH+CX Fairborn, OH, USA', 'global_code': '86FQQWHH+CX'}, 
+#     'types': ['street_address']}]
+
+
+# y = x[0]['formatted_address']
 
 ###############################
 # Google API      
@@ -245,6 +249,7 @@ pdb.set_trace()
 #    'place_id': 'ChIJryzQxJqGQIgRuT0Qo2yujtI',
 #    'types': ['premise']}],
 #  'status': 'OK'}
+
 
 
 

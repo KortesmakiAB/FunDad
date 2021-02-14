@@ -111,7 +111,7 @@ def create_account():
             db.session.commit()
 
         except IntegrityError:
-            flash("Username/Email already taken", 'danger')
+            flash('Username/Email already taken', 'danger')
 
             return render_template('users/signup.html', form=form)
 
@@ -140,15 +140,74 @@ def display_destinations():
     return render_template('destinations/destinations.html', user=user)
 
 
-@app.route('/destinations/checkin')
-def serve_check_in_form():
-    """Serve form for user to check in at a destination."""
+@app.route('/destinations/checkin', methods=['GET', 'POST'])
+def handle_checkin():
+    """GET: Serve form for user to check in at a destination.
+    POST: Add a new Visit."""
 
-    form = DestinationCheckInForm()
+    if check_authorization():
+        return redirect(url_for('landing_page'))
+
+    # TODO
+    form = ()
+
+    if form.validate_on_submit():
+        TODO 
+
+        visit = Visit()
+        db.session.add(visit)
+        db.session.commit()
+        
+        flash('Welcome Back!', 'success')
+
+        return redirect(url_for('display_destinations'))
 
     user = User.query.get(g.user.id)
 
     return render_template('destinations/checkin.html', user=user, form=form)
+
+
+@app.route('/destinations/new', methods=['GET', 'POST'])
+def add_new_destination():
+    """Extract form data then geocode (lookup coordinates and place_id). 
+    Add new destination to destinations table.
+    TODO Add new user_destination to users_destinations table.
+    TODO add visit to visits table.
+    """
+
+    if check_authorization():
+        return redirect(url_for('landing_page'))
+
+    form = DestinationCheckInForm()
+
+    if form.validate_on_submit():
+        # 
+        name = form.name.data
+        address = form.address.data
+
+        resp = geocode_address(address)
+        
+        dest = Destination(name=name, 
+                        place_id=resp['place_id'], 
+                        latitude=resp['latitude'], 
+                        longitude=resp['longitude'])
+
+        
+        db.session.add(dest)
+        db.session.commit()
+
+        # visit = Visit()
+
+        # db.session.add(visit)
+        # db.session.commit()
+        
+        flash('Destination successfully added. You are checked in!', 'success')
+
+        return redirect(url_for('display_destinations'))
+
+    user = User.query.get(g.user.id)
+
+    return render_template('destinations/dest-new.html', user=user, form=form)
 
 
 ##############################################################################
@@ -171,11 +230,6 @@ def display_map_view():
 ##############################################################################
 # Begin API routes
 
-unauth = {
-    'unauthorized': 'Access unauthorized.'
-}
-
-
 @app.route('/api/travel-times')
 def get_travel_times_response():
     """Call Google Maps "distance matrix" API for travel times.
@@ -183,7 +237,7 @@ def get_travel_times_response():
     Create a response dict where destination-ids are the keys and travel-times are the values."""
     
     if check_API_authorization():
-        return jsonify(unauth)
+        return jsonify(messages['unauth'])
         
     user = User.query.get_or_404(g.user.id)
     dest_coords = [(dest.latitude, dest.longitude) for dest in user.destinations]
@@ -199,7 +253,7 @@ def get_destination_data():
     """Get data for current users previous destinations."""
 
     if check_API_authorization():
-        return jsonify(unauth)
+        return jsonify(messages['unauth'])
 
     user = User.query.get_or_404(g.user.id)
 
@@ -208,17 +262,19 @@ def get_destination_data():
     return jsonify(destinations_data)
     
 
-@app.route('/api/destinations/checkin', methods=['POST'])
-def check_in_destination():
-    """Accept coords. Return address 
-    TODO and maybe place_id"""
+@app.route('/api/destinations/get-address')
+def reverse_geocode_address():
+    """Accept coords. Call Google Maps API reverse geocode to get physical address."""
 
     if check_API_authorization():
-        return jsonify(unauth)
+        return jsonify(messages['unauth'])
+    
+    resp = get_reverse_geocode(request)
     
     return (jsonify({
-        'address': get_reverse_geocode(request)
+        'address': resp.get('address'),
+        'place_id': resp.get('place_id'),
     }), 201) 
-    
+
 
     

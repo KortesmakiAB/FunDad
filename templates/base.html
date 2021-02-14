@@ -18,7 +18,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if g.user %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('serve_check_in_form') }}">Check-In</a>
+                        <a class="nav-link" href="{{ url_for('handle_checkin') }}">Check-In</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('display_map_view') }}">Map View</a>
