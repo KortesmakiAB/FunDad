@@ -3,19 +3,8 @@ Here is a link to my evil plan:
 https://docs.google.com/document/d/17zp5fPJPdcq1sIPkXSsm57BNxn1y39aw5fxwxUxQes0/edit?usp=sharing
 
 ---------------------------------------------------
-app.js
-g.user = User.query.get(session[CURR_USER_KEY])
-CURR_USER_KEY = 'curr_user'
-Sooo.... g.user = User.query.get('curr_user')
-curr_user is not an id number. Why is this working?
 
-app.js
-function addDestinationMarkers()
-Why does the depricated function 'addListener' work when the supported function addEventListener() does not work? (My browser is up to date)
-Uncaught (in promise) TypeError: marker.addEventListener is not a function
-
-HTTPS:
-
+HTTPS in development:
 navigator.geolocation.getCurrentPosition() requires HTTPS
 
 Here is my hacky way around this...
@@ -28,13 +17,35 @@ if __name__ == "__main__":
 
 # https://stackoverflow.com/questions/29458548/can-you-add-https-functionality-to-a-python-flask-web-server
 
-Here is what Flask docs say...
-https://flask.palletsprojects.com/en/master/security/#security-headers
 
 What would be a better way?
 
-If not a better way, how can I config my browser so I don't keep getting a "Your connection is not private" message, where I have to click 2 times to proceed?
+If not a better way, how can I config my browser so I don't keep getting a "Your connection is not private" message, which forces me to click 2 times to proceed?
+
+Here is what Flask docs say...
+https://flask.palletsprojects.com/en/master/security/#security-headers
+
+
+---------------------------------------------------
+
+WHat do I do about the differences in my code locally vs heroku?
+WHAT DO I DO ABOUT THE API RESTRICTIONS?????????
+
+---------------------------------------------------
 
 Can I configure MINGW64 so that when I open a new window, it opens in my previous directory?
 If I have 1 console window open, when I open a second console window, it will open in the same directory as window 1.
 
+---------------------------------------------------
+if time:
+
+app.js
+g.user = User.query.get(session[CURR_USER_KEY])
+CURR_USER_KEY = 'curr_user'
+Sooo.... g.user = User.query.get('curr_user')
+curr_user is not an id number. Why is this working?
+
+app.js
+function addDestinationMarkers()
+Why does the depricated function 'addListener' work when the supported function addEventListener() does not work? (My browser is up to date)
+Uncaught (in promise) TypeError: marker.addEventListener is not a function
