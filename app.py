@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 from forms import *
 from models import *
 from app_helpers import *
-from secret_keys import *
+from secret_keys import API_MAP_KEY
 
 app = Flask(__name__)
 
