@@ -225,7 +225,7 @@ def display_map_view():
 
     user = User.query.get(g.user.id)
 
-    return render_template('map-view.html', user=user, key=API_MAP_KEY)
+    return render_template('map-view.html', user=user, key=API_KEY)
 
 
 ##############################################################################
