@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 from forms import *
 from models import *
 from app_helpers import *
-from secret_keys import API_MAP_KEY
+from secret_keys import *
 
 app = Flask(__name__)
 
@@ -20,7 +20,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "sdasdf;lkjl;kj@#$kl;jadfklj")
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'sdasdf;lkjl;kj@#$kl;jadfklj')
+
 toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
