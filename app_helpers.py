@@ -10,15 +10,6 @@ CURR_USER_KEY = "curr_user"
 
 
 ##############################################################################
-# Global variables
-
-messages = {
-    'unauth' : {'unauthorized': 'Access unauthorized.'},
-    'dest_success' : {'success': 'Destination added successfully.'}
-}
-
-
-##############################################################################
 # User login/logout helper functions
 
 def do_login(user):
@@ -44,6 +35,14 @@ def check_authorization():
 
 
 ##############################################################################
+# API global variable
+
+messages = {
+    'unauth' : {'unauthorized': 'Access unauthorized.'},
+}
+
+
+##############################################################################
 # API route helper functions
 
 def check_API_authorization():
@@ -60,7 +59,6 @@ def get_travel_times(request, dest_coords):
     
     lat = request.args.get('lat')
     lng = request.args.get('lng')
-    # g.user.coordinates = f'{lat},{lng}'
 
     now = datetime.now()
     dist_time = gmaps.distance_matrix(origins=(lat, lng), 

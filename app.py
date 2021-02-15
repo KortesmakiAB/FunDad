@@ -148,21 +148,25 @@ def handle_checkin():
     if check_authorization():
         return redirect(url_for('landing_page'))
 
-    # TODO
-    form = ()
+    form = CheckInForm()
+    user = User.query.get(g.user.id)
+    destinations = [(dest.id, dest.name) for dest in user.destinations]
+    form.destination.choices = destinations
 
     if form.validate_on_submit():
-        TODO 
+        dest_id = form.destination.data
 
-        visit = Visit()
+        user_dest = db.session.query(UserDestination).filter_by(user_id=g.user.id, dest_id=dest_id).first()
+        
+        visit = Visit(usr_dest=user_dest.id)
         db.session.add(visit)
         db.session.commit()
         
-        flash('Welcome Back!', 'success')
+        dest = db.session.query(Destination).filter_by(id=dest_id).first()
+
+        flash(f'Welcome back to {dest.name}!', 'success')
 
         return redirect(url_for('display_destinations'))
-
-    user = User.query.get(g.user.id)
 
     return render_template('destinations/checkin.html', user=user, form=form)
 
@@ -222,7 +226,6 @@ def display_map_view():
     user = User.query.get(g.user.id)
 
     return render_template('map-view.html', user=user, key=API_MAP_KEY)
-
 
 
 ##############################################################################

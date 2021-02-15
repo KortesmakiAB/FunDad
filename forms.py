@@ -1,6 +1,6 @@
 """Forms for FUN DAD app."""
 
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, SelectField
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Email, Length
 from wtforms_alchemy import model_form_factory
@@ -29,6 +29,11 @@ class UserLoginForm(FlaskForm):
     username_email = StringField('email address', validators=[DataRequired()])
     password       = PasswordField('password', validators=[Length(min=6)])
 
+
+class CheckInForm(FlaskForm):
+    """CheckInForm"""
+
+    destination = SelectField('destination', coerce=int, validators=[DataRequired()])
 
 class NewDestinationForm(FlaskForm):
     """Add a new destination."""
