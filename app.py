@@ -171,17 +171,15 @@ def handle_checkin():
 def add_new_destination():
     """Extract form data then geocode (lookup coordinates and place_id). 
     Add new destination to destinations table.
-    TODO Add new user_destination to users_destinations table.
-    TODO add visit to visits table.
-    """
+    Add new user_destination to users_destinations table.
+    Add visit to visits table."""
 
     if check_authorization():
         return redirect(url_for('landing_page'))
 
-    form = DestinationCheckInForm()
+    form = NewDestinationForm()
 
     if form.validate_on_submit():
-        # 
         name = form.name.data
         address = form.address.data
 
@@ -191,15 +189,16 @@ def add_new_destination():
                         place_id=resp['place_id'], 
                         latitude=resp['latitude'], 
                         longitude=resp['longitude'])
-
-        
         db.session.add(dest)
         db.session.commit()
+        
+        user_dest = UserDestination(user_id=g.user.id, dest_id=dest.id)
+        db.session.add(user_dest)
+        db.session.commit()
 
-        # visit = Visit()
-
-        # db.session.add(visit)
-        # db.session.commit()
+        visit = Visit(usr_dest=user_dest.id)
+        db.session.add(visit)
+        db.session.commit()
         
         flash('Destination successfully added. You are checked in!', 'success')
 

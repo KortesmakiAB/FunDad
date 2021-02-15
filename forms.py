@@ -30,7 +30,7 @@ class UserLoginForm(FlaskForm):
     password       = PasswordField('password', validators=[Length(min=6)])
 
 
-class DestinationCheckInForm(FlaskForm):
+class NewDestinationForm(FlaskForm):
     """Add a new destination."""
 
     name    = StringField('destination name', validators=[DataRequired()])
