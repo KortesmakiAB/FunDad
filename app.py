@@ -55,10 +55,11 @@ def add_user_to_g():
 def landing_page():
     """Display landing page"""
 
-    if check_authorization():
-        return render_template('home-anon.html')
-
-    return redirect(url_for('display_destinations'))
+    # if logged in, redirect
+    if g.user:
+        return redirect(url_for('display_destinations'))
+        
+    return render_template('home-anon.html')
 
 
 ##############################################################################
