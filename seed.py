@@ -14,7 +14,7 @@ d1  = Destination(name="Southern Hills Playground",
                 longitude= -84.19479231970848)
 
 d2  = Destination(name="Shafor Park",
-                place_id="'ChIJl1FxbDmEQIgRlW1utZH50Ng",
+                place_id="ChIJl1FxbDmEQIgRlW1utZH50Ng",
                 latitude=39.7255265,
                 longitude=-84.16824249999999)
 

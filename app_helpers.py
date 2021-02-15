@@ -1,5 +1,6 @@
 from flask import session, g, flash
 from datetime import datetime
+import requests
 
 from secret_keys import API_KEY
 import googlemaps
@@ -107,3 +108,30 @@ def get_reverse_geocode(request):
         'address': address[0]['formatted_address'],
         'place_id': address[0]['formatted_address']
     }
+
+
+def get_photo_ids(place_id):
+    """Use a place id to fetch a maximum of 10 photos."""
+
+    fields = ['name', 'photo', 'place_id', 'url']
+    place = gmaps.place(place_id=place_id, fields=fields)
+
+    return [photo['photo_reference'] for photo in place['result']['photos']]
+
+
+def get_photo_urls(photo_ids):
+    """Use list of photo ids to call Google Places Photo API and get a list of photos urls."""
+
+    photo_urls = []
+
+    for photo_id in photo_ids:
+        photo = requests.get('https://maps.googleapis.com/maps/api/place/photo',
+                    params={
+                        "key": API_KEY,
+                        "photoreference": photo_id,
+                        "maxheight": 300
+                    })
+        
+        photo_urls.append(photo.url)
+    
+    return photo_urls

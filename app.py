@@ -2,7 +2,6 @@
 import os
 
 from flask import Flask, render_template, redirect, request, flash, session, g, jsonify, url_for
-import requests
 
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
@@ -213,6 +212,33 @@ def add_new_destination():
     user = User.query.get(g.user.id)
 
     return render_template('destinations/dest-new.html', user=user, form=form)
+
+
+@app.route('/destinations/<int:id>')
+def show_destination_details(id):
+    """TODO"""
+
+    if check_authorization():
+        return redirect(url_for('landing_page'))
+        
+    dest = db.session.query(Destination).filter_by(id=id).first()
+    
+    photo_ids = get_photo_ids(dest.place_id)
+
+    photo_urls = get_photo_urls(photo_ids)
+
+    # import pdb
+    # pdb.set_trace()
+
+    # TODO remove this block
+    # for sizing exerimentation 
+    # photo_urls = ['https://lh3.googleusercontent.com/p/AF1QipNhYrPCBGVFhaLRNEHM4s6YItShEPbImEHKZllA=s1600-h400', 'https://lh3.googleusercontent.com/p/AF1QipNTHS9UNRd724XQmP4XGhenbmZn0Pm_48MfHYF1=s1600-h400', 'https://lh3.googleusercontent.com/p/AF1QipO5HP2ucy2Th3FiXgQmm5t4Y9svDmM5wodwy1M9=s1600-h400', 'https://lh3.googleusercontent.com/p/AF1QipMuDwNKRIdkMd9ZJy-PoZUEcSC3z8PPY2ToXexA=s1600-h400', 'https://lh3.googleusercontent.com/p/AF1QipMOm5-AIFo-ALzjK3_smPudMYgH47QHIV04FOhf=s1600-h400', 'https://lh3.googleusercontent.com/p/AF1QipM5ClrII8uIS_fyjOM57FH_GkEcF4cddhp1H1PY=s1600-h400', 'https://lh3.googleusercontent.com/p/AF1QipMvoxQvwUAp0Puuj342UHpkblsBwC20CVP0yNM4=s1600-h400', 'https://lh3.googleusercontent.com/p/AF1QipP8Vf_r5ASXomQES5ld8wCfViID9BvsZJ1SkID5=s1600-h400', 'https://lh3.googleusercontent.com/p/AF1QipMqfaALLYaaemvGMWQQ3pbVC39DREL5QXap9WVY=s1600-h400', 'https://lh3.googleusercontent.com/p/AF1QipNrS6Qz_snOZetCGgsIH6N9uk29F9b6qe-4o9BE=s1600-h400']
+
+    max_imgs = 5 if len(photo_urls) >= 5 else len(photo_urls) - 1
+
+    user = User.query.get(g.user.id)
+    
+    return render_template('destinations/dest-detail.html', user=user, photos=photo_urls, max_imgs=max_imgs)
 
 
 ##############################################################################
