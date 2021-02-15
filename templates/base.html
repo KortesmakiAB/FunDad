@@ -47,10 +47,10 @@
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a class="nav-link btn" href="{{ url_for('login_user') }}">Login</a>
+                            <a class="nav-link btn btn-outline-secondary mx-1" href="{{ url_for('login_user') }}">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn btn-primary" id="create-acct-btn" href="{{ url_for('create_account') }}">Create Account</a>
+                            <a class="nav-link btn btn-primary mx-1" id="create-acct-btn" href="{{ url_for('create_account') }}">Create Account</a>
                         </li>
                         {% endif %}
                     </ul>

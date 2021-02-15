@@ -1,2 +1,2 @@
-API_KEY     = 'AIzaSyCV6gk2Tc_KtycG5-EUgPPkhvaIg4KeBRc'
-API_MapsJS_KEY = 'AIzaSyBAP6FsxggWdUb-AxjmSSXW5hWxHE_rG2Q'
+API_KEY     = 'AIzaSyAZ6pyU9bUDnkbJIVt9pFjE3F_IxtcxRTg'
+API_MapsJS_KEY = 'AIzaSyB-_zCBOSnhXlfK8wGSrE2Xwk7mVnxYtOs'

@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 from forms import *
 from models import *
 from app_helpers import *
-from secret_keys import API_MapsJS_KEY
+from secret_keys import *
 
 app = Flask(__name__)
 
@@ -20,8 +20,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "sdasdf;lkjl;kj@#$kl;jadfklj")
-# toolbar = DebugToolbarExtension(app)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'sdasdf;lkjl;kj@#$kl;jadfklj')
+
+toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
@@ -55,10 +56,11 @@ def add_user_to_g():
 def landing_page():
     """Display landing page"""
 
-    if check_authorization():
-        return render_template('home-anon.html')
-
-    return redirect(url_for('display_destinations'))
+    # if logged in, redirect
+    if g.user:
+        return redirect(url_for('display_destinations'))
+        
+    return render_template('home-anon.html')
 
 
 ##############################################################################
