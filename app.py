@@ -22,7 +22,7 @@ app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'sdasdf;lkjl;kj@#$kl;jadfklj')
 
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
@@ -227,7 +227,7 @@ def display_map_view():
 
     user = User.query.get(g.user.id)
 
-    return render_template('map-view.html', user=user, key=API_MapsJS_KEY)
+    return render_template('map-view.html', user=user, key=API_MAP_KEY)
 
 
 ##############################################################################
