@@ -101,7 +101,6 @@ def get_reverse_geocode(request):
 
     address = gmaps.reverse_geocode(latlng=user_coords,
                                     result_type='street_address')
-                                    # location_type='ROOFTOP')
     
     return {
         'address': address[0]['formatted_address'],

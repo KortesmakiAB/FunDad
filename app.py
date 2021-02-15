@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 from forms import *
 from models import *
 from app_helpers import *
-from secret_keys import API_KEY
+from secret_keys import API_MapsJS_KEY
 
 app = Flask(__name__)
 
@@ -225,7 +225,7 @@ def display_map_view():
 
     user = User.query.get(g.user.id)
 
-    return render_template('map-view.html', user=user, key=API_KEY)
+    return render_template('map-view.html', user=user, key=API_MapsJS_KEY)
 
 
 ##############################################################################

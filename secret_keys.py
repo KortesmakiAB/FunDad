@@ -1,1 +1,2 @@
-API_KEY     = 'AIzaSyBAP6FsxggWdUb-AxjmSSXW5hWxHE_rG2Q'
+API_KEY     = 'AIzaSyCV6gk2Tc_KtycG5-EUgPPkhvaIg4KeBRc'
+API_MAP_KEY = 'AIzaSyBAP6FsxggWdUb-AxjmSSXW5hWxHE_rG2Q'
