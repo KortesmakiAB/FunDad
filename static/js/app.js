@@ -1,4 +1,4 @@
-const base_url = 'https://127.0.0.1:5000';
+const base_url = 'https://fun-dad.herokuapp.com';
 const errorMsg = document.getElementById('error-msg');
 let coords = {};
 

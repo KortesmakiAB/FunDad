@@ -7,3 +7,12 @@ Give user option to get drive time in case they tap the deny location button or 
 
 Error handling:
 	What if a user checks in at a new location, but the place_id already exists?
+
+/destinations/new
+optional: if user uses address lookup, don't call API again
+
+
+Fix Logout flash message issues
+
+Do I want different id="" for my different forms?
+

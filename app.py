@@ -21,15 +21,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "sdasdf;lkjl;kj@#$kl;jadfklj")
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
 # HTTPS for development purposes
 # $ pip install pyopenssl
 # $ flask run --cert=adhoc
-if __name__ == "__main__":
-    app.run(ssl_context='adhoc')
+# if __name__ == "__main__":
+#     app.run(ssl_context='adhoc')
 # https://stackoverflow.com/questions/29458548/can-you-add-https-functionality-to-a-python-flask-web-server
 
 
