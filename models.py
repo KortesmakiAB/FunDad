@@ -75,7 +75,7 @@ class Destination(db.Model):
 
 
 class UserDestination(db.Model):
-    """User/Destination combination, goreign key table"""
+    """User/Destination combination, a foreign key table"""
 
     __tablename__ = "users_destinations"
 
