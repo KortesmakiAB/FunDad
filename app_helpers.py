@@ -81,10 +81,10 @@ def make_dest_dicts(user):
     } for dest in user.destinations]
 
 
-def geocode_address(address):
+def geocode_address(name_address):
     """Use address to get latitude, longitude, place_id."""
 
-    resp = gmaps.geocode(address)
+    resp = gmaps.geocode(name_address)
 
     return {
         'place_id': resp[0]['place_id'],
@@ -102,7 +102,6 @@ def get_reverse_geocode(request):
 
     address = gmaps.reverse_geocode(latlng=user_coords,
                                     result_type='street_address')
-                                    # location_type='ROOFTOP')
     
     return {
         'address': address[0]['formatted_address'],
@@ -110,14 +109,38 @@ def get_reverse_geocode(request):
     }
 
 
-def get_photo_ids(place_id):
-    """Use a place id to fetch a maximum of 10 photos."""
+def get_dest_info(place_id):
+    """Use a place id to:
+    fetch a maximum of 10 photos,
+    fetch place name,"""
 
-    fields = ['name', 'photo', 'place_id', 'url']
+    fields = ['name', 'photo', 'place_id', 'opening_hours', 'website']
     place = gmaps.place(place_id=place_id, fields=fields)
-
-    return [photo['photo_reference'] for photo in place['result']['photos']]
-
+   
+    try:
+        name = place['result']['name']
+    except KeyError:
+        name = 'n/a'
+    try:
+        photo_ids = [photo['photo_reference'] for photo in place['result']['photos']]
+    except KeyError:
+        photo_ids = 'n/a'
+    try:
+        website = place['result']['website']
+    except KeyError:
+        website = 'n/a'
+    try:
+        hours = place['result']['opening_hours']['weekday_text']
+    except KeyError:
+        hours = 'n/a'
+    
+    return {
+        'name': name,
+        'photo_ids': photo_ids,
+        'website': website,
+        'hours': hours
+    }
+  
 
 def get_photo_urls(photo_ids):
     """Use list of photo ids to call Google Places Photo API and get a list of photos urls."""
