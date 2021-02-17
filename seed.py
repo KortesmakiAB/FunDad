@@ -23,8 +23,13 @@ d3  = Destination(name="Centennial Park at Houk Stream",
                 latitude=39.7165207,
                 longitude=-84.18076789999999)
 
+d4  = Destination(name="Bill Yeck Park",
+                place_id="ChIJ8TgBwzWOQIgRdNKUGJjYdo4",
+                latitude=39.625336,
+                longitude=-84.118263)
 
-db.session.add_all([d1, d2, d3])
+
+db.session.add_all([d1, d2, d3, d4])
 db.session.commit()
 
 
@@ -44,16 +49,17 @@ db.session.commit()
 
 ud1 = UserDestination(user_id=2, dest_id=2)
 ud2 = UserDestination(user_id=2, dest_id=3)
+ud3 = UserDestination(user_id=2, dest_id=4)
 
-db.session.add_all([ud1, ud2])
+db.session.add_all([ud1, ud2, ud3])
 db.session.commit()
 
 
 ###############################################################
 # Visits
 
-v1  = Visit(usr_dest=1)
-v2  = Visit(usr_dest=2)
+v1  = Visit(usr_dest=3)
+v2  = Visit(usr_dest=3)
 
 db.session.add_all([v1, v2])
 db.session.commit()

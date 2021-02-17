@@ -18,17 +18,15 @@ async function callReverseGeocode(){
 }
 
 function appendAddressToForm(address){
-    console.log(address)
     const addyInput = document.getElementById('address');
     addyInput.value = address.address;
 
-    const div = document.getElementById('new-dest-errors')
+    const errorDiv = document.getElementById('new-dest-errors')
     for (let error of address.errors){
         const p = document.createElement('p');
         p.setAttribute('class', 'text-danger');
         p.innerText = error;
-        div.append(p)
-        
+        errorDiv.append(p);
     }
 
     //Way to reduce API queries

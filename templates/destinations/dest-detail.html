@@ -30,7 +30,7 @@
       </h2>
       <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionDestination">
         <div class="accordion-body">
-            {% if dest_info['hours'] != 'n/a' %}
+            {% if dest_info['hours'] %}
             <ul class="list-group">
                 {% for hour in dest_info['hours'] %}
                 <li class="list-group-item">{{hour}}</li>

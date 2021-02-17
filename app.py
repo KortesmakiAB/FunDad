@@ -214,6 +214,11 @@ def add_new_destination():
             flash('Error: unable to add new destination.', 'warning')
             
             return redirect(url_for('add_new_destination'))
+        
+        except IntegrityError:
+            flash('Error: must enter a unique address.', 'warning')
+
+            return redirect(url_for('add_new_destination'))
 
     user = User.query.get(g.user.id)
 
