@@ -254,7 +254,7 @@ def show_destination_details(id):
         photo_urls = get_photo_urls(dest_info['photo_ids'])
         max_imgs = 5 if len(photo_urls) >= 5 else len(photo_urls) - 1
 
-    except KeyError:
+    except (KeyError, TypeError):
         photo_urls = None
         max_imgs = None
 
