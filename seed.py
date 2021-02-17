@@ -58,8 +58,10 @@ db.session.commit()
 ###############################################################
 # Visits
 
-v1  = Visit(usr_dest=3)
-v2  = Visit(usr_dest=3)
+v1  = Visit(usr_dest=1)
+v2  = Visit(usr_dest=2)
+v3  = Visit(usr_dest=3)
+v4  = Visit(usr_dest=3)
 
-db.session.add_all([v1, v2])
+db.session.add_all([v1, v2, v3, v4])
 db.session.commit()

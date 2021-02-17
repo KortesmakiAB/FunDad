@@ -27,7 +27,11 @@
             {{destination.visit_date|length()}}
         </td>
         <td>
+            {% if destination.visit_date %}
             {{ destination.visit_date[(destination.visit_date|length() - 1)].date }}
+            {% else %}
+            n/a
+            {% endif %}
         </td>
         <td id="trvl-time-{{destination.id}}">
             n/a
