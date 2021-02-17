@@ -2,6 +2,24 @@ const base_url = 'https://127.0.0.1:5000';
 const errorMsg = document.getElementById('error-msg');
 let coords = {};
 
+
+/////////////////////////////////////////////////////////////////////
+// Loading Spinner
+
+const $spinnerModal = $('#spinnerModal');
+const spinners = document.querySelectorAll('.spinner');
+
+for (let spinner of spinners){
+    spinner.addEventListener('click', function(){
+        $spinnerModal.modal('show');
+
+        setTimeout(function() {
+            $spinnerModal.modal("hide");
+        }, 3500);
+    });
+}
+
+
 /////////////////////////////////////////////////////////////////////
 // SHARED functions
 
@@ -12,7 +30,6 @@ function callGetCurrPos(resource){
         } 
         else {
             errorMsg.innerText = "Geolocation is not supported by this browser.";
-            alert('am I in trouble?')
         }
     }
 }

@@ -21,7 +21,7 @@
     {% for destination in user.destinations %}
     <tr>
         <td>
-            <a href="{{ url_for('show_destination_details', id=destination.id) }}" class="link-secondary"> {{ destination.name }} </a>
+            <a href="{{ url_for('show_destination_details', id=destination.id) }}" class="link-secondary spinner"> {{ destination.name }} </a>
         </td>
         <td>
             {{destination.visit_date|length()}}

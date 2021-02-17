@@ -1,8 +1,12 @@
-#create-acct-btn {
-    color: white;
+/* #exampleModal {
+    height: 50vh;
+} */
+
+#spinner-container {
+    height: 400px;
 }
 
-/* #map {
-    height: 400px;
-    width: 100%;
-} */
+#spinner{
+    width: 5rem;
+    height: 5rem;
+}

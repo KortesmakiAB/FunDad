@@ -6,3 +6,12 @@
     height: 400px;
     width: 100%;
 }
+
+#spinner-container {
+    height: 400px;
+}
+
+#spinner{
+    width: 5rem;
+    height: 5rem;
+}
