@@ -13,9 +13,9 @@ for (let spinner of spinners){
     spinner.addEventListener('click', function(){
         $spinnerModal.modal('show');
 
-        setTimeout(function() {
-            $spinnerModal.modal("hide");
-        }, 3500);
+        // setTimeout(function() {
+        //     $spinnerModal.modal("hide");
+        // }, 3500);
     });
 }
 
