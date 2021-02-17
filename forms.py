@@ -3,16 +3,8 @@
 from wtforms import StringField, PasswordField, SelectField
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Email, Length
-from wtforms_alchemy import model_form_factory
 from models import User
 
-BaseModelForm = model_form_factory(FlaskForm)
-
-
-# class ModelForm(BaseModelForm):
-#     @classmethod
-#     def get_session(self):
-#         return db.session
 
 class UserSignupForm(FlaskForm):
     """New user signup form."""
@@ -35,10 +27,16 @@ class CheckInForm(FlaskForm):
 
     destination = SelectField('destination', coerce=int, validators=[DataRequired()])
 
+
 class NewDestinationForm(FlaskForm):
     """Add a new destination."""
 
     name    = StringField('destination name', validators=[DataRequired()])
     address = StringField('address', validators=[DataRequired()])
 
+
+class EditDestinationForm(FlaskForm):
+    """Edit a new destination."""
+
+    name    = StringField('destination name', validators=[DataRequired()])
 

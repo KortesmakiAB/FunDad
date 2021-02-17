@@ -2,7 +2,6 @@
 import os
 
 from flask import Flask, render_template, redirect, request, flash, session, g, jsonify, url_for
-import requests
 
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
@@ -189,31 +188,97 @@ def add_new_destination():
         name = form.name.data
         address = form.address.data
 
-        resp = geocode_address(address)
+        resp = geocode_address((name + address))
         
-        dest = Destination(name=name, 
-                        place_id=resp['place_id'], 
-                        latitude=resp['latitude'], 
-                        longitude=resp['longitude'])
-        db.session.add(dest)
-        db.session.commit()
-        
-        user_dest = UserDestination(user_id=g.user.id, dest_id=dest.id)
-        db.session.add(user_dest)
-        db.session.commit()
+        try:
+            dest = Destination(name=name, 
+                            place_id=resp['place_id'], 
+                            latitude=resp['latitude'], 
+                            longitude=resp['longitude'])
+            db.session.add(dest)
+            db.session.commit()
 
-        visit = Visit(usr_dest=user_dest.id)
-        db.session.add(visit)
-        db.session.commit()
-        
-        flash('Destination successfully added. You are checked in!', 'success')
+            user_dest = UserDestination(user_id=g.user.id, dest_id=dest.id)
+            db.session.add(user_dest)
+            db.session.commit()
 
-        return redirect(url_for('display_destinations'))
+            visit = Visit(usr_dest=user_dest.id)
+            db.session.add(visit)
+            db.session.commit()
+            
+            flash('Destination successfully added. You are checked in!', 'success')
+
+            return redirect(url_for('display_destinations'))
+
+        except TypeError:
+            flash('Error: unable to add new destination.', 'warning')
+            
+            return redirect(url_for('add_new_destination'))
+        
+        except IntegrityError:
+            flash('Error: must enter a unique address.', 'warning')
+
+            return redirect(url_for('add_new_destination'))
 
     user = User.query.get(g.user.id)
 
     return render_template('destinations/dest-new.html', user=user, form=form)
 
+
+@app.route('/destinations/<int:id>', methods=['GET', 'POST'])
+def show_destination_details(id):
+    """
+    GET: From Google Places API, show destination info: Name, website, hours, pics(adjustable number from 0-10), and display form to edit name of destination as  given by user.
+    POST: Update name of destination as  given by user.
+    """
+
+    if check_authorization():
+        return redirect(url_for('landing_page'))
+    
+    dest = Destination.query.get_or_404(id)
+
+    form = EditDestinationForm(obj=dest)
+
+    if form.validate_on_submit():
+        dest.name = form.name.data
+        db.session.commit()
+        
+        flash('Destination updated.', 'success')
+        
+        return redirect(url_for('display_destinations'))
+
+
+    dest_info = get_dest_info(dest.place_id)
+
+    try:
+        photo_urls = get_photo_urls(dest_info['photo_ids'])
+        max_imgs = 5 if len(photo_urls) >= 5 else len(photo_urls) - 1
+
+    except KeyError:
+        photo_urls = None
+        max_imgs = None
+
+    user = User.query.get(g.user.id)
+
+    return render_template('destinations/dest-detail.html', user=user, dest_info=dest_info, photos=photo_urls, max_imgs=max_imgs, form=form, id=id)
+
+
+@app.route('/destinations/<int:id>/delete', methods=['POST'])
+def delete_destination(id):
+    """Delete a destination"""
+
+    if check_authorization():
+        return redirect(url_for('landing_page'))
+
+    dest = Destination.query.get_or_404(id)
+
+    db.session.delete(dest)
+    db.session.commit()
+
+    flash('Destination deleted.', 'danger')
+        
+    return redirect(url_for('display_destinations'))
+        
 
 ##############################################################################
 # Map View routes
@@ -247,7 +312,11 @@ def get_travel_times_response():
     dest_coords = [(dest.latitude, dest.longitude) for dest in user.destinations]
     
     travel_times = get_travel_times(request, dest_coords)
-    trvl_time_dict = {user.destinations[i].id : travel_times[i] for i in range(len(user.destinations))}
+    
+    if travel_times:
+        trvl_time_dict = {user.destinations[i].id : travel_times[i] for i in range(len(user.destinations))}
+    else:
+        trvl_time_dict = {user.destinations[i].id : 'n/a' for i in range(len(user.destinations))}
 
     return jsonify(trvl_time_dict)
 
@@ -273,12 +342,27 @@ def reverse_geocode_address():
     if check_API_authorization():
         return jsonify(messages['unauth'])
     
-    resp = get_reverse_geocode(request)
+    obj = {
+        'errors':[]
+    }
     
-    return (jsonify({
-        'address': resp.get('address'),
-        'place_id': resp.get('place_id'),
-    }), 201) 
+    resp = get_reverse_geocode(request)
+
+    if resp['address']:
+        obj['address'] = resp['address']
+    else:
+        obj['address'] = ''
+        obj['errors'].append('Address unavailable.')
+        
+        
+
+    if resp['place_id']:
+        obj['place_id'] = resp['place_id']
+    else:
+        obj['place_id'] = None
+        obj['errors'].append('Place id unavailable.')
+    
+    return jsonify(obj) 
 
 
     

@@ -13,7 +13,6 @@ async function getAddress(evt){
 }
 
 async function callReverseGeocode(){
-    console.log(coords)
     resp = await axios.get(`${base_url}/api/destinations/get-address`, { params: coords});
     return resp.data;    
 }
@@ -21,6 +20,14 @@ async function callReverseGeocode(){
 function appendAddressToForm(address){
     const addyInput = document.getElementById('address');
     addyInput.value = address.address;
+
+    const errorDiv = document.getElementById('new-dest-errors')
+    for (let error of address.errors){
+        const p = document.createElement('p');
+        p.setAttribute('class', 'text-danger');
+        p.innerText = error;
+        errorDiv.append(p);
+    }
 
     //Way to reduce API queries
         // add hidden form field to forms.py for place_id, lat, lng

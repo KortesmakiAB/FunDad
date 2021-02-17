@@ -32,7 +32,7 @@
                             <li><a class="dropdown-item" href="/destinations"> - See List - </a></li>
                             {% if user %}
                             {% for destination in user.destinations %}
-                            <li><a class="dropdown-item" href="#">{{ destination.name }}</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('show_destination_details', id=destination.id) }}">{{ destination.name }}</a></li>
                             {% endfor %}
                             {% endif %}
                         </ul>
