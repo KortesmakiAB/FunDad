@@ -50,6 +50,7 @@
       </h2>
       <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree" data-bs-parent="#accordionDestination">
         <div class="accordion-body">
+            {% if photos %}
             <div id="destination-carousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
                     {% for num in range(max_imgs) %}
@@ -75,6 +76,9 @@
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
+            {% else %}
+            <h6>n/a</h6>
+            {% endif %}
         </div>
       </div>
 

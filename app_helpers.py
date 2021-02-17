@@ -68,7 +68,11 @@ def get_travel_times(request, dest_coords):
                                         departure_time=now,
                                         traffic_model='best_guess')
 
-    return [elmt['duration_in_traffic']['text'] for elmt in dist_time['rows'][0]['elements']]
+    try:
+        return [elmt['duration_in_traffic']['text'] for elmt in dist_time['rows'][0]['elements']]
+        
+    except KeyError:
+        return None
     
 
 def make_dest_dicts(user):
@@ -86,10 +90,25 @@ def geocode_address(name_address):
 
     resp = gmaps.geocode(name_address)
 
+    try: 
+        place_id = resp[0]['place_id']
+    except KeyError:
+        place_id = None
+
+    try: 
+        latitude = resp[0]['geometry']['location']['lat']
+    except KeyError:
+        latitude = None
+
+    try: 
+        longitude = resp[0]['geometry']['location']['lng']        
+    except KeyError:
+        longitude = None
+
     return {
-        'place_id': resp[0]['place_id'],
-        'latitude': resp[0]['geometry']['location']['lat'],
-        'longitude': resp[0]['geometry']['location']['lng']        
+        'place_id': place_id,
+        'latitude': latitude,
+        'longitude': longitude 
     }
 
 
@@ -100,12 +119,22 @@ def get_reverse_geocode(request):
     lng = request.args.get('lng')
     user_coords = f'{lat},{lng}'
 
-    address = gmaps.reverse_geocode(latlng=user_coords,
+    rev_address = gmaps.reverse_geocode(latlng=user_coords,
                                     result_type='street_address')
-    
+
+    try:
+        address = rev_address[0]['formatted_address']
+    except KeyError:
+        address = None
+
+    try:
+        place_id = rev_address[0]['place_id']
+    except KeyError:
+        place_id = None
+
     return {
-        'address': address[0]['formatted_address'],
-        'place_id': address[0]['formatted_address']
+        'address': address,
+        'place_id': place_id
     }
 
 
@@ -121,18 +150,21 @@ def get_dest_info(place_id):
         name = place['result']['name']
     except KeyError:
         name = 'n/a'
+
     try:
         photo_ids = [photo['photo_reference'] for photo in place['result']['photos']]
     except KeyError:
-        photo_ids = 'n/a'
+        photo_ids = None
+
     try:
         website = place['result']['website']
     except KeyError:
         website = 'n/a'
+
     try:
         hours = place['result']['opening_hours']['weekday_text']
     except KeyError:
-        hours = 'n/a'
+        hours = None
     
     return {
         'name': name,
