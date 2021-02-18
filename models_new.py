@@ -29,8 +29,8 @@ class User(db.Model):
     username_email = db.Column(db.String(25), nullable=False, unique=True)
     password       = db.Column(db.String(100), nullable=False)
 
-    destinations   = db.relationship('Destination', secondary='users_destinations', backref='user')
-    visit_date     = db.relationship('Visit', secondary='users_destinations', backref='user')
+    destinations   = db.relationship('Destination', secondary=users_destinations, backref='user')
+    visit_date     = db.relationship('Visit', secondary=users_destinations, backref='user')
 
     @classmethod
     def signup(cls, first_name, last_name, username_email, password):
@@ -70,17 +70,14 @@ class Destination(db.Model):
     latitude  = db.Column(db.Float, nullable=False)    
     longitude = db.Column(db.Float, nullable=False)
 
-    visit_date = db.relationship('Visit', secondary='users_destinations', backref='destination')
+    visit_date = db.relationship('Visit', secondary=users_destinations, backref='destination')
 
 
-class UserDestination(db.Model):
-    """User/Destination combination, a foreign key table"""
+users_destinations_visits = db.Table('users_destinations',
+    db.Column(user_id, db.Integer, db.ForeignKey(users.id), primary_key=True),
+    db.Column(dest_id, db.Integer, db.ForeignKey(destinations.id), primary_key=True)
+)
 
-    __tablename__ = "users_destinations"
-
-    id      = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)    
-    dest_id = db.Column(db.Integer, db.ForeignKey('destinations.id', ondelete='cascade'), nullable=False)
 
 
 class Visit(db.Model):
@@ -90,4 +87,4 @@ class Visit(db.Model):
 
     id       = db.Column(db.Integer, primary_key=True)
     date     = db.Column(db.Date, nullable=False, default=date.today())
-    usr_dest = db.Column(db.Integer, db.ForeignKey('users_destinations.id', ondelete='cascade'), nullable=False)
+    usr_dest = db.Column(db.Integer, db.ForeignKey('users_destinations', ondelete='cascade'), nullable=False)
