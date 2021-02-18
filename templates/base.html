@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="/static/app.css">
     <title>FUN DAD</title>
 </head>
+
 <body>
-    <!-- Modal -->
+    <!-- Page Load Spinner Modal -->
     <div class="modal fade" id="spinnerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="spinnerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -36,7 +37,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('display_map_view') }}">Map View</a>
-                        <!-- <a class="nav-link" href="http://www.google.com">Map View</a> -->
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,32 +53,33 @@
                     </li>
                 {% endif %}
                 </ul>
-                <div id="#" class="">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- Login/Logout/Create Account -->
+                <div>
+                    <ul class="navbar-nav m-auto">
                         {% if g.user %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('logout_user') }}">Logout</a>
                         </li>
                         {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-outline-secondary mx-1" href="{{ url_for('login_user') }}">Login</a>
-                        </li>
-                        <li class="nav-item">
+                        <li class="nav-item my-1 mx-.5">
                             <a class="nav-link btn btn-primary mx-1" id="create-acct-btn" href="{{ url_for('create_account') }}">Create Account</a>
                         </li>
-                        {% endif %}
+                        <li class="nav-item my-1">
+                            <a class="nav-link btn btn-outline-secondary mx-1" href="{{ url_for('login_user') }}">Login</a>
+                        </li>
+                        {% endif %}               
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-
+    <!-- flash messages -->
     <div class="container">
         {% for category, message in get_flashed_messages(with_categories=True) %}
         <div class="alert alert-{{ category }}">{{ message }}
         </div>
         {% endfor %}
-    
+        <!-- main content -->
         {% block content %}
         {% endblock %}
     </div>
