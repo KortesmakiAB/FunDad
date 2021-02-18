@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-"Welcome to my landing page. It'll be fancy-ish."
+<div class="row m-5">
+    <p>{{ joke['setup'] }}</p>
+    <p class="text-center">{{ joke['punchline'] }}</p>
+</div>
+<div id="dad-img" class="row d-flex align-items-end">
+    <img src="/static/images/dad-9-transparent.png" class="img-fluid alt="FatherSon" srcset="">
+</div>
+
 {% endblock %}
