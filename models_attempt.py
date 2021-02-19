@@ -18,6 +18,16 @@ def connect_db(app):
     db.init_app(app)
 
 
+# attempt #1: a composite primary key join table with a foreign key column
+# next step is to re-seed.
+# next step is to re-work app.py and anywhere else users_destinations or User_Destination was used.
+users_destinations = db.Table('users_destinations',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('dest_id', db.Integer, db.ForeignKey('destinations.id'), primary_key=True),
+    db.Column('visit_id', db.Integer, db.ForeignKey('visits.id'))
+)
+
+
 class User(db.Model):
     """User account."""
 
@@ -71,13 +81,6 @@ class Destination(db.Model):
     longitude = db.Column(db.Float, nullable=False)
 
     visit_date = db.relationship('Visit', secondary=users_destinations, backref='destination')
-
-
-users_destinations_visits = db.Table('users_destinations',
-    db.Column(user_id, db.Integer, db.ForeignKey(users.id), primary_key=True),
-    db.Column(dest_id, db.Integer, db.ForeignKey(destinations.id), primary_key=True)
-)
-
 
 
 class Visit(db.Model):
