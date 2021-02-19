@@ -36,11 +36,22 @@ db.session.commit()
 ###############################################################
 # User
 
-u1  = User(first_name="Tom", last_name="Brady", username_email="tom@tb12.com", password="$2b$12$F9OhvGwLm9DDkuL8SqleTegr7GTkUm92S/0uAOy5mW7AcQbiUYhj.")
-
-u2  = User(first_name="YoYo", last_name="Ma", username_email="yoyo@yoyoma.com", password="$2b$12$F9OhvGwLm9DDkuL8SqleTegr7GTkUm92S/0uAOy5mW7AcQbiUYhj.")
+u1 = User(first_name="Tom", last_name="Brady", username_email="tom@tb12.com", password="$2b$12$F9OhvGwLm9DDkuL8SqleTegr7GTkUm92S/0uAOy5mW7AcQbiUYhj.")
+u2 = User(first_name="YoYo", last_name="Ma", username_email="yoyo@yoyoma.com", password="$2b$12$F9OhvGwLm9DDkuL8SqleTegr7GTkUm92S/0uAOy5mW7AcQbiUYhj.")
 
 db.session.add_all([u1, u2])
+db.session.commit()
+
+
+###############################################################
+# Visits
+
+v1 = Visit()
+v2 = Visit()
+v3 = Visit()
+v4 = Visit()
+
+db.session.add_all([v1, v2, v3, v4])
 db.session.commit()
 
 
@@ -54,14 +65,13 @@ ud3 = UserDestination(user_id=2, dest_id=4)
 db.session.add_all([ud1, ud2, ud3])
 db.session.commit()
 
-
 ###############################################################
-# Visits
+# DestinationVisit
 
-v1  = Visit(usr_dest=1)
-v2  = Visit(usr_dest=2)
-v3  = Visit(usr_dest=3)
-v4  = Visit(usr_dest=3)
+dv1 = DestinationVisit(dest_id=2, visit_id=1)
+dv2 = DestinationVisit(dest_id=3, visit_id=2)
+dv3 = DestinationVisit(dest_id=3, visit_id=3)
+dv4 = DestinationVisit(dest_id=4, visit_id=4)
 
-db.session.add_all([v1, v2, v3, v4])
+db.session.add_all([dv1, dv2, dv3, dv4])
 db.session.commit()

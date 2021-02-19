@@ -12,10 +12,6 @@ const spinners = document.querySelectorAll('.spinner');
 for (let spinner of spinners){
     spinner.addEventListener('click', function(){
         $spinnerModal.modal('show');
-
-        // setTimeout(function() {
-        //     $spinnerModal.modal("hide");
-        // }, 3500);
     });
 }
 
@@ -64,16 +60,16 @@ async function nextAction(){
 function showError(error) {
     switch(error.code) {
       case error.PERMISSION_DENIED:
-        errorMsg.innerText = "User denied the request for Geolocation."
+        errorMsg.innerText = "Error: User denied Geolocation request."
         break;
       case error.POSITION_UNAVAILABLE:
-        errorMsg.innerText = "Location information is unavailable."
+        errorMsg.innerText = "Error: Location information is unavailable."
         break;
       case error.TIMEOUT:
-        errorMsg.innerText = "The request to get user location timed out."
+        errorMsg.innerText = "Error: The request to get user location timed out."
         break;
       case error.UNKNOWN_ERROR:
-        errorMsg.innerText = "An unknown error occurred."
+        errorMsg.innerText = "Error: An unknown error occurred."
         break;
     }
 }

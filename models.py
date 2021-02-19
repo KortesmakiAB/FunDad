@@ -30,9 +30,7 @@ class User(db.Model):
     password       = db.Column(db.String(100), nullable=False)
 
     destinations   = db.relationship('Destination', secondary='users_destinations', backref='user')
-    visit_date     = db.relationship('Visit', secondary='users_destinations', backref='user')
 
-    
     @classmethod
     def signup(cls, first_name, last_name, username_email, password):
         """Create user instance, inluding hashed pw, and add to session."""
@@ -71,23 +69,33 @@ class Destination(db.Model):
     latitude  = db.Column(db.Float, nullable=False)    
     longitude = db.Column(db.Float, nullable=False)
 
-    visit_date = db.relationship('Visit', secondary='users_destinations', backref='destination')
+    visit_date = db.relationship('Visit', secondary='destinations_visits', backref='destination')
 
 
 class UserDestination(db.Model):
-    """User/Destination combination, a foreign key table"""
+    """User/Destination combination, a foreign key table."""
 
     __tablename__ = "users_destinations"
 
-    id      = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='cascade'), nullable=False)    
-    dest_id = db.Column(db.Integer, db.ForeignKey('destinations.id', ondelete='cascade'), nullable=False)
+    id       = db.Column(db.Integer, primary_key=True)
+    user_id  = db.Column(db.Integer, db.ForeignKey('users.id',  ondelete='cascade'), nullable=False)
+    dest_id  = db.Column(db.Integer, db.ForeignKey('destinations.id',  ondelete='cascade'), nullable=False)
+
+
+class DestinationVisit(db.Model):
+    """visits and destinations join table."""
+
+    __tablename__ = "destinations_visits"
+
+    id       = db.Column(db.Integer, primary_key=True)
+    dest_id  = db.Column(db.Integer, db.ForeignKey('destinations.id',  ondelete='cascade'), nullable=False)
+    visit_id  = db.Column(db.Integer, db.ForeignKey('visits.id',  ondelete='cascade'), nullable=False)
 
 
 class Visit(db.Model):
     """Date of a user's visit to a destination."""
 
     __tablename__ = "visits"
+
     id       = db.Column(db.Integer, primary_key=True)
     date     = db.Column(db.Date, nullable=False, default=date.today())
-    usr_dest = db.Column(db.ForeignKey('users_destinations.id', ondelete='cascade'), nullable=False)

@@ -1,10 +1,14 @@
+#google_font {
+    font-family: 'Love Ya Like A Sister', cursive;
+    font-size: 2rem;
+}
+
 #create-acct-btn {
     color: white;
 }
 
 #map {
-    height: 400px;
-    width: 100%;
+    height: 500px;
 }
 
 #spinner-container {
@@ -14,4 +18,12 @@
 #spinner{
     width: 5rem;
     height: 5rem;
+}
+
+#dad-img{
+    height: 60vh;
+}
+
+#error-msg {
+    color: red;
 }

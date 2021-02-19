@@ -53,13 +53,15 @@ def add_user_to_g():
 
 @app.route('/', methods=['GET', 'POST'])
 def landing_page():
-    """Display landing page"""
+    """Display landing page with random dad-joke."""
 
     # if logged in, redirect
     if g.user:
         return redirect(url_for('display_destinations'))
-        
-    return render_template('home-anon.html')
+    
+    joke = get_dad_joke()
+
+    return render_template('home-anon.html', joke=joke)
 
 
 ##############################################################################
@@ -155,16 +157,16 @@ def handle_checkin():
     form.destination.choices = destinations
 
     if form.validate_on_submit():
-        dest_id = form.destination.data
-
-        user_dest = db.session.query(UserDestination).filter_by(user_id=g.user.id, dest_id=dest_id).first()
-        
-        visit = Visit(usr_dest=user_dest.id)
+        visit = Visit()
         db.session.add(visit)
-        db.session.commit()
+        db.session.commit()     
+
+        dest_id = form.destination.data
+        dest_vst = DestinationVisit(dest_id=dest_id, visit_id=visit.id)
+        db.session.add(dest_vst)
+        db.session.commit()     
         
         dest = db.session.query(Destination).filter_by(id=dest_id).first()
-
         flash(f'Welcome back to {dest.name}!', 'success')
 
         return redirect(url_for('display_destinations'))
@@ -176,8 +178,9 @@ def handle_checkin():
 def add_new_destination():
     """Extract form data then geocode (lookup coordinates and place_id). 
     Add new destination to destinations table.
+    Add visit to visits table.
     Add new user_destination to users_destinations table.
-    Add visit to visits table."""
+    Add new dest_visit to destinations_visits table."""
 
     if check_authorization():
         return redirect(url_for('landing_page'))
@@ -202,10 +205,14 @@ def add_new_destination():
             db.session.add(user_dest)
             db.session.commit()
 
-            visit = Visit(usr_dest=user_dest.id)
+            visit = Visit()
             db.session.add(visit)
-            db.session.commit()
-            
+            db.session.commit()     
+
+            dest_vst = DestinationVisit(dest_id=dest.id, visit_id=visit.id)
+            db.session.add(dest_vst)
+            db.session.commit()  
+
             flash('Destination successfully added. You are checked in!', 'success')
 
             return redirect(url_for('display_destinations'))
@@ -271,6 +278,8 @@ def delete_destination(id):
         return redirect(url_for('landing_page'))
 
     dest = Destination.query.get_or_404(id)
+    # import pdb
+    # pdb.set_trace()
 
     db.session.delete(dest)
     db.session.commit()

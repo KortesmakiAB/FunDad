@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="map"></div>
+<div id="map">
+    <p class="position-absolute top-50 start-50 translate-middle"> Please enable <i>Location Services</i> to view <a href="https://fun-dad.herokuapp.com/map-view">map</a>.</p>
+   
+</div>
+<div>
+    <p id="error-msg"class="text-center"></p>
+</div>
 {% endblock %}
 
 {% block script %}
-<script async
-    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap">
+<script async src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap">
 </script>
 {% endblock %}
