@@ -65,7 +65,7 @@ class Destination(db.Model):
 
     id        = db.Column(db.Integer, primary_key=True)
     name      = db.Column(db.String(100), nullable=False)
-    place_id  = db.Column(db.String(200), nullable=False, unique=True)
+    place_id  = db.Column(db.String(200), nullable=False)
     latitude  = db.Column(db.Float, nullable=False)    
     longitude = db.Column(db.Float, nullable=False)
 
