@@ -192,37 +192,40 @@ def add_new_destination():
         address = form.address.data
 
         resp = geocode_address((name + address))
-        
-        try:
-            dest = Destination(name=name, 
-                            place_id=resp['place_id'], 
-                            latitude=resp['latitude'], 
-                            longitude=resp['longitude'])
-            db.session.add(dest)
-            db.session.commit()
 
-            user_dest = UserDestination(user_id=g.user.id, dest_id=dest.id)
-            db.session.add(user_dest)
-            db.session.commit()
+        # user may not have duplicate place_id's
+        place_ids = [dest.place_id for dest in g.user.destinations]
+        if resp['place_id'] not in place_ids:
+            try:
+                dest = Destination(name=name, 
+                                place_id=resp['place_id'], 
+                                latitude=resp['latitude'], 
+                                longitude=resp['longitude'])
+                db.session.add(dest)
+                db.session.commit()
 
-            visit = Visit()
-            db.session.add(visit)
-            db.session.commit()     
+                user_dest = UserDestination(user_id=g.user.id, dest_id=dest.id)
+                db.session.add(user_dest)
+                db.session.commit()
 
-            dest_vst = DestinationVisit(dest_id=dest.id, visit_id=visit.id)
-            db.session.add(dest_vst)
-            db.session.commit()  
+                visit = Visit()
+                db.session.add(visit)
+                db.session.commit()     
 
-            flash('Destination successfully added. You are checked in!', 'success')
+                dest_vst = DestinationVisit(dest_id=dest.id, visit_id=visit.id)
+                db.session.add(dest_vst)
+                db.session.commit()  
 
-            return redirect(url_for('display_destinations'))
+                flash('Destination successfully added. You are checked in!', 'success')
 
-        except TypeError:
-            flash('Error: unable to add new destination.', 'warning')
+                return redirect(url_for('display_destinations'))
+
+            except TypeError:
+                flash('Error: unable to add new destination.', 'warning')
+                
+                return redirect(url_for('add_new_destination'))
             
-            return redirect(url_for('add_new_destination'))
-        
-        except IntegrityError:
+        else:
             flash('Error: must enter a unique address.', 'warning')
 
             return redirect(url_for('add_new_destination'))
@@ -278,9 +281,6 @@ def delete_destination(id):
         return redirect(url_for('landing_page'))
 
     dest = Destination.query.get_or_404(id)
-    # import pdb
-    # pdb.set_trace()
-
     db.session.delete(dest)
     db.session.commit()
 
