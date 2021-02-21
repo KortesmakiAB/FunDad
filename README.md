@@ -70,7 +70,3 @@ Back End:
 Database:
 - PostgreSQL (database)
 - Flask SQLAlchemy (ORM)
-
-
-
-
