@@ -70,8 +70,8 @@ class DestinationModelTestCase(TestCase):
         with self.assertRaises(exc.IntegrityError):
             db.session.rollback()
 
-            # not unique place id
-            d2 = Destination(name="test_destination", place_id=self.d.place_id, latitude=1.0, longitude=2.0)
+            # missing place id
+            d2 = Destination(name="test_destination", place_id=None, latitude=1.0, longitude=2.0)
             db.session.add(d2)
 
             db.session.commit()
