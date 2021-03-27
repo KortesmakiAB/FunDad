@@ -33,7 +33,7 @@ class User(db.Model):
 
     @classmethod
     def signup(cls, first_name, last_name, username_email, password):
-        """Create user instance, inluding hashed pw, and add to session."""
+        """Create user instance, including hashed pw, and add to session."""
 
         hashed_pw = bcrypt.generate_password_hash(password).decode('UTF-8')
 
