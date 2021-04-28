@@ -133,12 +133,17 @@ def create_account():
 @app.route('/destinations')
 def display_destinations():
     """Render page displaying table of:
-         park name, number of vists, date of last visit, and travel time."""
+         park name, number of visits, date of last visit, and travel time."""
 
     if check_authorization():
         return redirect(url_for('landing_page'))
 
     user = User.query.get(g.user.id)
+
+    def get_last_visit_date(dest):
+        return dest.visit_date[len(dest.visit_date) - 1].date
+    
+    user.destinations.sort(key=get_last_visit_date)
 
     return render_template('destinations/destinations.html', user=user)
 
