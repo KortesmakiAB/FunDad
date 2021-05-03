@@ -27,8 +27,7 @@ This is the data most helpful to a user when deciding which destination they wil
 
 **Destination Details:**  
 Using the Google Places API, display any of the following data as available:
-- Photo Carousel  
-    Photo reference ids harvesested from Google Places API then photo urls fetched via Google Places Photos API
+- Photo Carousel - Photo reference ids harvested from Google Places API then photo urls fetched via Google Places Photos API
 - Link to destination website
 - Hours of operation
 - Edit name of destination
@@ -40,7 +39,7 @@ Using the Google Places API, display any of the following data as available:
 - Clicking on a marker reveals a cross-platform link which launches turn-by-turn directions in the native Google Maps app
 
 **Check-In:**
-- User should check-in each time visiting a destination, chosing from list of previous destinations
+- User should check-in each time visiting a destination, choosing from list of previous destinations
 
 **Add a new destination:**
 - User may use their browsers geolocation service to provide current address
