@@ -12,6 +12,11 @@ Turn-by-turn directions would be a huge plus.
 <br>
 <br>
 
+<img src="static/mdGifs/list-map.gif" width="200">
+<img src="static/mdGifs/destination.gif" width="200">
+<img src="static/mdGifs/gmaps-launch.gif" width="200">
+<img src="static/mdGifs/checkin.gif" width="200">
+
 ## Features:
 **Table Containing users previous destinations:** <br> 
 This is the data most helpful to a user when deciding which destination they will return to next.
